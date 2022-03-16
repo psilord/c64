@@ -192,15 +192,9 @@ start:
 	;jsr TEST_vic_get_scroll_y				; $03 UL Corner
 	;jsr TEST_vic_set_scroll_y				; $05 UL Corner
 	;jsr TEST_vic_scroll_y_bitmap_display	; A specific image
+	;jsr TEST_memset
 
-	lda #$00
-	sta mem_dst
-	lda #$04
-	sta mem_dst+1
-	lda #$01
-	ldx #$e8
-	ldy #$03
-	jsr memset
+	jsr TEST_memcpy
 
 exit:
 	rts
@@ -256,26 +250,20 @@ reset_video_memory: .proc
 ;; Function: memset
 ;; Fills memory with a value
 ;;
-;; Store the destination address at: mem_dst (low byte), memdst+1 (high byte)
+;; Store the destination address at: mem_dst (low byte), mem_dst+1 (high byte)
 ;; A is the value we'd like to store in the memory. 
 ;; X is the low byte of the number of bytes to store
 ;; Y is the high byte of the number of bytes to store
+;; If Y:X takes you past end of memory, memset will wrap.
 ;;
 ;; Input Registers: A, X, Y
 ;; Return Value: None
 ;; Destroys: A, X, Y
-;; ---------------------------
-;; This is an unoptimized way to memset, but general in its use
+;;
+;; NOTE: This is an unoptimized way to memset, but general in its use
 ;; and convenient in allowing me to prototype. The code is self
 ;; modifying to simplify it.
-;; Inputs:
-;; A contains value to set into each byte.
-;; X contains low byte of length
-;; Y contains high byte of length.
-;; if $YX takes you past end of memory, will wrap.
-;; mem_dst, mem_dst+1, the 2 byte ZP pointer to start the memset.
-;;
-;; Destroys: A, X, Y.
+;; ---------------------------
 memset: .proc
 	;; Save off the value we're copying
 	sta tmp_val
@@ -309,7 +297,7 @@ check_lo_byte:
 	cmp tmp_end_addr
 	beq done
 
-	;; 2. Do a copy (self modifyng code)
+	;; 2. Do a copy (self modifing code)
 fill_byte:
 	lda tmp_val
 store_loc:
@@ -337,6 +325,149 @@ tmp_end_addr:
 	.byte $00 ;; lo byte
 	.byte $00 ;; hi byte
 .pend
+
+TEST_memset: .proc
+	;; Fill the screen with A's
+	jsr reset_c64
+	lda #$00
+	sta mem_dst
+	lda #$04
+	sta mem_dst+1
+	lda #$01
+	ldx #$e8
+	ldy #$03
+	jsr memset
+	rts
+.pend
+
+;; ---------------------------
+;; Function: memcpy
+;; Copies memory pointed to from msm_src,mem_src+1 to memory pointed to by
+;; mem_dst,mem_dst+1. The number of bytes copied is in Y:X with X being the
+;; low byte and Y being the high byte. It is allowed to wrap across $FFFF,
+;; but the memory copy CAN NOT overlap.
+;;
+;; Store the source address at: mem_src (low byte), mem_src+1 (high byte)
+;; Store the destination address at: mem_dst (low byte), mem_dst+1 (high byte)
+;; X is the low byte of the number of bytes to store
+;; Y is the high byte of the number of bytes to store
+;; If Y:X takes you past end of memory, memcpy will wrap.
+;;
+;; Input Registers: X, Y
+;; Return Value: None
+;; Destroys: A, X, Y
+;;
+;; NOTE: This is an unoptimized way to memcpy, but general in its use
+;; and convenient in allowing me to prototype. The code is self
+;; modifying to simplify it.
+;; ---------------------------
+
+memcpy: .proc
+	;; Save off the number of bytes we're needing to copy
+	stx tmp_num_bytes	;; lo byte
+	sty tmp_num_bytes+1 ;; hi byte
+
+	;; Compute end store address (allows roll-over in memory)
+	clc
+	lda mem_dst			;; lo byte
+	adc tmp_num_bytes
+	sta tmp_end_addr
+	lda mem_dst+1		;; high byte (with carry)
+	adc tmp_num_bytes+1
+	sta tmp_end_addr+1
+
+	;; Initialize loading location to where the user specified.
+	lda mem_src		;; lo byte
+	sta load_loc+1
+	lda mem_src+1	;; hi byte
+	sta load_loc+2
+
+	;; Initialize storing location to where the user specified.
+	lda mem_dst		;; lo byte
+	sta store_loc+1
+	lda mem_dst+1	;; hi byte
+	sta store_loc+2
+
+loop:
+	;; 1. Check if done
+	lda store_loc+2 ;; check hi byte first
+	cmp tmp_end_addr+1
+	bne copy_byte
+check_lo_byte:
+	lda store_loc+1	;; check lo byte next
+	cmp tmp_end_addr
+	beq done
+
+	;; 2. Do a load/store copy (self modifing code)
+copy_byte:
+load_loc:
+	;; load_loc+1 is addr lo byte, load_loc+2 is addr hi byte
+	;; NOTE: can't use $0000 here cause it'll be a 2-byte instruction!
+	lda $ffff
+
+store_loc:
+	;; store_loc+1 is addr lo byte, store_loc+2 is addr hi byte
+	;; NOTE: can't use $0000 here cause it'll be a 2-byte instruction!
+	sta $ffff
+
+	;; 3. Increment loading address, from low bytes to high byte
+	inc load_loc+1	;; lo byte
+	beq inc_load_addr_high_byte
+	jmp increment_storing_addr
+inc_load_addr_high_byte:
+	inc load_loc+2	;; hi byte
+
+	;; 4. Increment storing address, from low bytes to high byte
+increment_storing_addr:
+	inc store_loc+1	;; lo byte
+	beq inc_store_addr_high_byte
+	jmp loop
+inc_store_addr_high_byte:
+	inc store_loc+2	;; hi byte
+	jmp loop
+
+done:
+	rts
+
+tmp_num_bytes:
+	.byte $00 ;; lo byte (X register)
+	.byte $00 ;; hi byte (Y register)
+tmp_end_addr:
+	.byte $00 ;; lo byte
+	.byte $00 ;; hi byte
+.pend
+
+
+TEST_memcpy: .proc
+	jsr reset_c64
+
+	;; write 40 A's to the first line on the screen
+	lda #$00
+	sta mem_dst
+	lda #$04
+	sta mem_dst+1
+	lda #$01
+	ldx #$28 ;; 40 bytes
+	ldy #$00
+	jsr memset
+
+	;; Now copy that line of text to two lines down at $0450
+	lda #$00
+	sta mem_src
+	lda #$04
+	sta mem_src+1
+	lda #$50
+	sta mem_dst
+	lda #$04
+	sta mem_dst+1
+	ldx #$28 ;; 40 bytes
+	ldy #$00
+	jsr memcpy
+
+	rts
+.pend
+
+
 
 ;; ---------------------------
 ;; Function: vic_clear_default_screen
