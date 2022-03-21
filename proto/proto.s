@@ -173,8 +173,9 @@ basic_auto_run:
 
     ; memory location 2062 comes next, which our SYS command above calls
     ; (i.e. 2048 + 14 bytes for our BASIC program above)
-
 start:
+	jmp main
+main: .proc
 	jsr reset_c64
 
 	;jsr TEST_vic_get_video_bank_loc 		; C UL corner
@@ -230,7 +231,7 @@ start:
 
 exit:
 	rts
-
+.pend
 
 ;; ---------------------------
 ;; Utils
