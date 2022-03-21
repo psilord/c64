@@ -2,6 +2,8 @@
 ;; the platform from scratch. It is not optimized for games or demos and
 ;; doesn't demonstrate good techniques for 6502 ASM or C64 ASM coding.
 ;; This may be corrected in the future.
+;; There is far too much cut and paste too, which will get better when
+;; I learn about 64tass macrology better.
 
 ;;; Constants
 
@@ -216,18 +218,37 @@ main: .proc
 	;jsr TEST_vic_scroll_y_bitmap_display	; A specific image
 	;jsr TEST_memset
 	;jsr TEST_memcpy
+
+	;; TODO: Fixup docstrings for sprite API.
+
 	;jsr TEST_vic_get_sprite_enable			; $00 UL corner
 	;jsr TEST_vic_set_sprite_enable			; $0a UL corner
 	;jsr TEST_vic_get_sprite_disable		; $ff UL corner
 	;jsr TEST_vic_set_sprite_disable			; $02 UL corner
 	;jsr TEST_vic_get_sprite_state			; $00 UL corner
 	;jsr TEST_vic_set_sprite_state			; $81 UL corner
+
 	;jsr TEST_vic_get_mc_sprite_enable		; $00 UL corner
 	;jsr TEST_vic_set_mc_sprite_enable		; $0a UL corner
 	;jsr TEST_vic_get_mc_sprite_disable		; $ff UL corner
 	;jsr TEST_vic_set_mc_sprite_disable		; $02 UL corner
 	;jsr TEST_vic_get_mc_sprite_state		; $00 UL corner
-	jsr TEST_vic_set_mc_sprite_state		; $81 UL corner
+	;jsr TEST_vic_set_mc_sprite_state		; $81 UL corner
+
+	;jsr TEST_vic_get_exh_sprite_enable		; $00 UL corner
+	;jsr TEST_vic_set_exh_sprite_enable		; $0a UL corner
+	;jsr TEST_vic_get_exh_sprite_disable		; $ff UL corner
+	;jsr TEST_vic_set_exh_sprite_disable		; $02 UL corner
+	;jsr TEST_vic_get_exh_sprite_state		; $00 UL corner
+	;jsr TEST_vic_set_exh_sprite_state		; $81 UL corner
+
+	;jsr TEST_vic_get_exv_sprite_enable		; $00 UL corner
+	;jsr TEST_vic_set_exv_sprite_enable		; $0a UL corner
+	;jsr TEST_vic_get_exv_sprite_disable		; $ff UL corner
+	;jsr TEST_vic_set_exv_sprite_disable		; $02 UL corner
+	;jsr TEST_vic_get_exv_sprite_state		; $00 UL corner
+	jsr TEST_vic_set_exv_sprite_state		; $81 UL corner
+
 
 exit:
 	rts
@@ -2140,6 +2161,11 @@ tmp_0:
 	.byte $00
 .pend
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; TODO: Fix the docstrings of the Sprite API functions to be correct.
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; ---------------------------
 ;; Function: vic_get_sprite_enable
@@ -2324,11 +2350,6 @@ TEST_vic_set_sprite_state: .proc
 	jsr TESTUtil_display_hex_byte		;; <-- $81 UL corner
 .pend
 
-
-
-;; multi-color sprites
-; $d01c, bit-7 is multi-color mode for sprite 7, and so forth.
-
 ;; ---------------------------
 ;; Function: vic_get_mc_sprite_enable
 ;; Check status of denoted multicolor sprites.
@@ -2512,8 +2533,373 @@ TEST_vic_set_mc_sprite_state: .proc
 	jsr TESTUtil_display_hex_byte		;; <-- $81 UL corner
 .pend
 
+;; ---------------------------
+;; Function: vic_get_exh_sprite_enable
+;; Check enabled status of denoted horizontally expanded sprites.
+;; C64PRG: p136
+;;
+;; The input value in A is the set of sprites to check.
+;; For each bit, a 1 means to check the horiz expanded state of that sprite, 
+;; and a 0 means to ignore to check the horiz expanded state of that sprite.
+;;
+;; The result in A: When the input bit was 1, the same output bit is either
+;; 1 if the sprite is horiz expanded or 0 if it is unexpanded. 
+;; When the input bit is 0, the output bit is 0 for "state unknown".
+;;
+;; Input Registers: A
+;; Return Value: A, the horiz expanded state of each denoted sprite.
+;; Destroys: A
+;; ---------------------------
+vic_get_exh_sprite_enable: .proc
+	and $d01d
+	rts
+.pend
+
+TEST_vic_get_exh_sprite_enable: .proc
+	jsr reset_c64
+	lda VIC_Sprite_All
+	jsr vic_get_exh_sprite_enable
+	ldx #$00
+	jsr TESTUtil_display_hex_byte     ;; <---- $00 UL corner
+.pend
+
+;; ---------------------------
+;; Function: vic_set_exh_sprite_enable
+;; Enable horiz expansion of denoted sprites in A.
+;; C64PRG: p136
+;;
+;; The input value in A is the set of sprites to horiz expand.
+;; For each bit, a 1 means to expand that sprite, 
+;; and a 0 means to ignore that current sprite's expansion state.
+;;
+;; Input Registers: A
+;; Return Value: None
+;; Destroys: A
+;; ---------------------------
+vic_set_exh_sprite_enable: .proc
+	ora $d01d
+	sta $d01d
+	rts
+.pend
+
+TEST_vic_set_exh_sprite_enable: .proc
+	jsr reset_c64
+
+	;; TODO: make a assembler folded constant
+	;lda #(VIC_Sprite_1 | VIC_Sprite_3) ;; why not working?
+	lda VIC_Sprite_1
+	ora VIC_Sprite_3
+
+	jsr vic_set_exh_sprite_enable
+	lda VIC_Sprite_All
+	jsr vic_get_exh_sprite_enable
+	ldx #$00
+	jsr TESTUtil_display_hex_byte		;; <-- $0a UL corner
+.pend
+
+;; ---------------------------
+;; Function: vic_get_exh_sprite_disable
+;; Check disabled status of horiz expanded sprites.
+;; C64PRG: p136
+;;
+;; The input value in A is the set of sprites to check.
+;; For each bit, a 1 means to check the disable state of that sprite, 
+;; and a 0 means to ignore to check the state of that sprite.
+;;
+;; The result in A: When the input bit was 1, the same output bit is either
+;; 1 if the sprite is disabled or 0 if it is enabled. When the input bit is
+;; 0, the output bit is 0 for "state unknown".
+;;
+;; Input Registers: A
+;; Return Value: A, the disabled state of each denoted sprite.
+;; Destroys: A
+;; ---------------------------
+vic_get_exh_sprite_disable: .proc
+	and $d01d
+	eor #$ff
+	rts
+.pend
+
+TEST_vic_get_exh_sprite_disable: .proc
+	jsr reset_c64
+	lda VIC_Sprite_All
+	jsr vic_get_exh_sprite_disable
+	ldx #$00
+	jsr TESTUtil_display_hex_byte       ;; <--- $ff UL corner
+.pend
+
+;; ---------------------------
+;; Function: vic_set_exh_sprite_disable
+;; Disable horiz expansion on denoted sprites in A.
+;; C64PRG: p136
+;;
+;; The input value in A is the set of sprites to disable horiz expansion.
+;; For each bit, a 1 means to disable that sprite's horiz expansion
+;; and a 0 means to ignore that current sprite's horiz expansion state.
+;;
+;; Input Registers: A
+;; Return Value: None
+;; Destroys: A
+;; ---------------------------
+vic_set_exh_sprite_disable: .proc
+	eor #$ff
+	and $d01d
+	sta $d01d
+	rts
+.pend
+
+TEST_vic_set_exh_sprite_disable: .proc
+	jsr reset_c64
+
+	;; Enable sprite 1 and 3
+	;; TODO: make a assembler folded constant
+	;lda #(VIC_Sprite_1 | VIC_Sprite_3) ;; why not working?
+	lda VIC_Sprite_1
+	ora VIC_Sprite_3
+	jsr vic_set_exh_sprite_enable
+
+	;; Disable Sprite 3
+	lda VIC_Sprite_3
+	jsr vic_set_exh_sprite_disable
+
+	lda VIC_Sprite_All
+	jsr vic_get_exh_sprite_enable
+	ldx #$00
+	jsr TESTUtil_display_hex_byte		;; <-- $02 UL corner
+.pend
+
+;; ---------------------------
+;; Function: vic_get_exh_sprite_state
+;; Return the horiz expansion state of all sprites.
+;; C64PRG: p136
+;;
+;; The result in A is: if a bit is 1, the sprite is horiz expanded, 
+;; otherwise the bit is 0 and the sprite is not horiz expanded.
+;;
+;; Input Registers: A
+;; Return Value: A, the horiz expanded state of each denoted sprite.
+;; Destroys: A
+;; ---------------------------
+vic_get_exh_sprite_state: .proc
+	lda $d01d
+	rts
+.pend
+
+TEST_vic_get_exh_sprite_state: .proc
+	jsr reset_c64
+	jsr vic_get_exh_sprite_state
+	ldx #$00
+	jsr TESTUtil_display_hex_byte		;; <-- $00 UL corner
+.pend
+
+;; ---------------------------
+;; Function: vic_set_exh_sprite_state
+;; Set the horiz expansion sprite register to the contents of A.
+;; C64PRG: p136
+;;
+;; Input Registers: A
+;; Return Value: None
+;; Destroys: A
+;; ---------------------------
+vic_set_exh_sprite_state: .proc
+	sta $d01d
+	rts
+.pend
+
+TEST_vic_set_exh_sprite_state: .proc
+	jsr reset_c64
+	lda VIC_Sprite_0
+	ora VIC_Sprite_7
+	jsr vic_set_exh_sprite_state
+	jsr vic_get_exh_sprite_state
+	ldx #$00
+	jsr TESTUtil_display_hex_byte		;; <-- $81 UL corner
+.pend
 
 
+
+;; ---------------------------
+;; Function: vic_get_exv_sprite_enable
+;; Check enabled status of denoted verticlly expanded sprites.
+;; C64PRG: p137
+;;
+;; The input value in A is the set of sprites to check.
+;; For each bit, a 1 means to check the verti expanded state of that sprite, 
+;; and a 0 means to ignore to check the verti expanded state of that sprite.
+;;
+;; The result in A: When the input bit was 1, the same output bit is either
+;; 1 if the sprite is verti expanded or 0 if it is unexpanded. 
+;; When the input bit is 0, the output bit is 0 for "state unknown".
+;;
+;; Input Registers: A
+;; Return Value: A, the verti expanded state of each denoted sprite.
+;; Destroys: A
+;; ---------------------------
+vic_get_exv_sprite_enable: .proc
+	and $d017
+	rts
+.pend
+
+TEST_vic_get_exv_sprite_enable: .proc
+	jsr reset_c64
+	lda VIC_Sprite_All
+	jsr vic_get_exv_sprite_enable
+	ldx #$00
+	jsr TESTUtil_display_hex_byte     ;; <---- $00 UL corner
+.pend
+
+;; ---------------------------
+;; Function: vic_set_exv_sprite_enable
+;; Enable verti expansion of denoted sprites in A.
+;; C64PRG: p137
+;;
+;; The input value in A is the set of sprites to verti expand.
+;; For each bit, a 1 means to expand that sprite, 
+;; and a 0 means to ignore that current sprite's expansion state.
+;;
+;; Input Registers: A
+;; Return Value: None
+;; Destroys: A
+;; ---------------------------
+vic_set_exv_sprite_enable: .proc
+	ora $d017
+	sta $d017
+	rts
+.pend
+
+TEST_vic_set_exv_sprite_enable: .proc
+	jsr reset_c64
+
+	;; TODO: make a assembler folded constant
+	;lda #(VIC_Sprite_1 | VIC_Sprite_3) ;; why not working?
+	lda VIC_Sprite_1
+	ora VIC_Sprite_3
+
+	jsr vic_set_exv_sprite_enable
+	lda VIC_Sprite_All
+	jsr vic_get_exv_sprite_enable
+	ldx #$00
+	jsr TESTUtil_display_hex_byte		;; <-- $0a UL corner
+.pend
+
+;; ---------------------------
+;; Function: vic_get_exv_sprite_disable
+;; Check disabled status of verti expanded sprites.
+;; C64PRG: p137
+;;
+;; The input value in A is the set of sprites to check.
+;; For each bit, a 1 means to check the vert expansion state of that sprite, 
+;; and a 0 means to ignore to check the vert expansion of that sprite.
+;;
+;; The result in A: When the input bit was 1, the same output bit is either
+;; 1 if the sprite is not verti expanded or 0 if it is. 
+;; When the input bit is 0, the output bit is 0 for "state unknown".
+;;
+;; Input Registers: A
+;; Return Value: A, the verti disabled state of each denoted sprite.
+;; Destroys: A
+;; ---------------------------
+vic_get_exv_sprite_disable: .proc
+	and $d017
+	eor #$ff
+	rts
+.pend
+
+TEST_vic_get_exv_sprite_disable: .proc
+	jsr reset_c64
+	lda VIC_Sprite_All
+	jsr vic_get_exv_sprite_disable
+	ldx #$00
+	jsr TESTUtil_display_hex_byte       ;; <--- $ff UL corner
+.pend
+
+;; ---------------------------
+;; Function: vic_set_exv_sprite_disable
+;; Disable horiz expansion on denoted sprites in A.
+;; C64PRG: p137
+;;
+;; The input value in A is the set of sprites to disable verti expansion.
+;; For each bit, a 1 means to disable that sprite's verti expansion
+;; and a 0 means to ignore that current sprite's verti expansion state.
+;;
+;; Input Registers: A
+;; Return Value: None
+;; Destroys: A
+;; ---------------------------
+vic_set_exv_sprite_disable: .proc
+	eor #$ff
+	and $d017
+	sta $d017
+	rts
+.pend
+
+TEST_vic_set_exv_sprite_disable: .proc
+	jsr reset_c64
+
+	;; Enable sprite 1 and 3
+	;; TODO: make a assembler folded constant
+	;lda #(VIC_Sprite_1 | VIC_Sprite_3) ;; why not working?
+	lda VIC_Sprite_1
+	ora VIC_Sprite_3
+	jsr vic_set_exv_sprite_enable
+
+	;; Disable Sprite 3
+	lda VIC_Sprite_3
+	jsr vic_set_exv_sprite_disable
+
+	lda VIC_Sprite_All
+	jsr vic_get_exv_sprite_enable
+	ldx #$00
+	jsr TESTUtil_display_hex_byte		;; <-- $02 UL corner
+.pend
+
+;; ---------------------------
+;; Function: vic_get_exv_sprite_state
+;; Return the horiz expansion state of all sprites.
+;; C64PRG: p137
+;;
+;; The result in A is: if a bit is 1, the sprite is verti expanded, 
+;; otherwise the bit is 0 and the sprite is not verti expanded.
+;;
+;; Input Registers: A
+;; Return Value: A, the verti expanded state of each denoted sprite.
+;; Destroys: A
+;; ---------------------------
+vic_get_exv_sprite_state: .proc
+	lda $d017
+	rts
+.pend
+
+TEST_vic_get_exv_sprite_state: .proc
+	jsr reset_c64
+	jsr vic_get_exv_sprite_state
+	ldx #$00
+	jsr TESTUtil_display_hex_byte		;; <-- $00 UL corner
+.pend
+
+;; ---------------------------
+;; Function: vic_set_exv_sprite_state
+;; Set the verti expansion sprite register to the contents of A.
+;; C64PRG: p137
+;;
+;; Input Registers: A
+;; Return Value: None
+;; Destroys: A
+;; ---------------------------
+vic_set_exv_sprite_state: .proc
+	sta $d017
+	rts
+.pend
+
+TEST_vic_set_exv_sprite_state: .proc
+	jsr reset_c64
+	lda VIC_Sprite_0
+	ora VIC_Sprite_7
+	jsr vic_set_exv_sprite_state
+	jsr vic_get_exv_sprite_state
+	ldx #$00
+	jsr TESTUtil_display_hex_byte		;; <-- $81 UL corner
+.pend
 
 
 
