@@ -2141,16 +2141,10 @@ tmp_0:
 .pend
 
 
-
-
-;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; TODO: Start adding Sprite API
-;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
 ;; ---------------------------
 ;; Function: vic_get_sprite_enable
 ;; Check status of denoted sprites.
-;; C64PRG: XXX
+;; C64PRG: p134
 ;;
 ;; The input value in A is the set of sprites to check.
 ;; For each bit, a 1 means to check the enable state of that sprite, 
@@ -2180,7 +2174,7 @@ TEST_vic_get_sprite_enable: .proc
 ;; ---------------------------
 ;; Function: vic_set_sprite_enable
 ;; Enable denoted sprites in A.
-;; C64PRG: XXX
+;; C64PRG: p134
 ;;
 ;; The input value in A is the set of sprites to enable.
 ;; For each bit, a 1 means to enable that sprite, 
@@ -2214,7 +2208,7 @@ TEST_vic_set_sprite_enable: .proc
 ;; ---------------------------
 ;; Function: vic_get_sprite_disable
 ;; Check status of denoted sprites.
-;; C64PRG: XXX
+;; C64PRG: p134
 ;;
 ;; The input value in A is the set of sprites to check.
 ;; For each bit, a 1 means to check the disable state of that sprite, 
@@ -2245,7 +2239,7 @@ TEST_vic_get_sprite_disable: .proc
 ;; ---------------------------
 ;; Function: vic_set_sprite_disable
 ;; Disable denoted sprites in A.
-;; C64PRG: XXX
+;; C64PRG: p134
 ;;
 ;; The input value in A is the set of sprites to enable.
 ;; For each bit, a 1 means to enable that sprite, 
@@ -2285,7 +2279,7 @@ TEST_vic_set_sprite_disable: .proc
 ;; ---------------------------
 ;; Function: vic_get_sprite_state
 ;; Return the enabled/disabled state of all sprites.
-;; C64PRG: XXX
+;; C64PRG: p134
 ;;
 ;; The result in A is: if a bit is 1, the sprite is enabled, otherwise the
 ;; sprite is disabled.
@@ -2309,7 +2303,7 @@ TEST_vic_get_sprite_state: .proc
 ;; ---------------------------
 ;; Function: vic_set_sprite_state
 ;; Set the sprite register to the contents of A.
-;; C64PRG: XXX
+;; C64PRG: p134
 ;;
 ;; Input Registers: A
 ;; Return Value: None
@@ -2338,7 +2332,7 @@ TEST_vic_set_sprite_state: .proc
 ;; ---------------------------
 ;; Function: vic_get_mc_sprite_enable
 ;; Check status of denoted multicolor sprites.
-;; C64PRG: XXX
+;; C64PRG: p136
 ;;
 ;; The input value in A is the set of sprites to check.
 ;; For each bit, a 1 means to check the enable state of that sprite, 
@@ -2368,7 +2362,7 @@ TEST_vic_get_mc_sprite_enable: .proc
 ;; ---------------------------
 ;; Function: vic_set_mc_sprite_enable
 ;; Enable denoted multicolor sprites in A.
-;; C64PRG: XXX
+;; C64PRG: p136
 ;;
 ;; The input value in A is the set of sprites to enable.
 ;; For each bit, a 1 means to enable that sprite, 
@@ -2402,7 +2396,7 @@ TEST_vic_set_mc_sprite_enable: .proc
 ;; ---------------------------
 ;; Function: vic_get_mc_sprite_disable
 ;; Check status of denoted multicolor sprites.
-;; C64PRG: XXX
+;; C64PRG: p136
 ;;
 ;; The input value in A is the set of sprites to check.
 ;; For each bit, a 1 means to check the disable state of that sprite, 
@@ -2433,7 +2427,7 @@ TEST_vic_get_mc_sprite_disable: .proc
 ;; ---------------------------
 ;; Function: vic_set_mc_sprite_disable
 ;; Disable denoted multicolor sprites in A.
-;; C64PRG: XXX
+;; C64PRG: p136
 ;;
 ;; The input value in A is the set of sprites to enable.
 ;; For each bit, a 1 means to enable that sprite, 
@@ -2473,7 +2467,7 @@ TEST_vic_set_mc_sprite_disable: .proc
 ;; ---------------------------
 ;; Function: vic_get_mc_sprite_state
 ;; Return the enabled/disabled state of all multicolor sprites.
-;; C64PRG: XXX
+;; C64PRG: p136
 ;;
 ;; The result in A is: if a bit is 1, the sprite is enabled, otherwise the
 ;; sprite is disabled.
@@ -2497,7 +2491,7 @@ TEST_vic_get_mc_sprite_state: .proc
 ;; ---------------------------
 ;; Function: vic_set_mc_sprite_state
 ;; Set the multicolor sprite register to the contents of A.
-;; C64PRG: XXX
+;; C64PRG: p136
 ;;
 ;; Input Registers: A
 ;; Return Value: None
