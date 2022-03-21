@@ -5,13 +5,16 @@
 
 ;;; Constants
 
+;; ;;;;;;;;;;;;;;;;;;;;;
 ;; VIC-II Constants: C64PRG: p102
+;; ;;;;;;;;;;;;;;;;;;;;;
 ; Video Bank Identification (sets video bank start)
 VIC_VBankLoc_Mask = #$03		; Bits 1-0
 VIC_VBankLoc_0 = #$03			; $0000 - $3fff
 VIC_VBankLoc_1 = #$02   		; $4000 - $7fff
 VIC_VBankLoc_2 = #$01			; $8000 - $bfff
 VIC_VBankLoc_3 = #$00   		; $C000 - $ffff (default value)
+
 ; Screen Memory Location (as an offset from the Video Bank start)
 VIC_ScrMemLoc_Mask = #$f0		; Bits 7-4
 VIC_ScrMemLoc_0 = #$00			; $0000
@@ -30,6 +33,7 @@ VIC_ScrMemLoc_c = #$c0			; $3000
 VIC_ScrMemLoc_d = #$d0			; $3400
 VIC_ScrMemLoc_e = #$e0			; $3800
 VIC_ScrMemLoc_f = #$f0			; $3c00
+
 ;; Character Memory Location (as an offset from the Video Bank start)
 VIC_CharMemLoc_Mask = #$0e		; Bits 3-1
 VIC_CharMemLoc_0 = #$00			; $0000 - $07ff
@@ -40,6 +44,7 @@ VIC_CharMemLoc_4 = #$08			; $2000 - $27ff
 VIC_CharMemLoc_5 = #$0a			; $2800 - $2fff
 VIC_CharMemLoc_6 = #$0c			; $3000 - $37ff
 VIC_CharMemLoc_7 = #$0e			; $3800 - $3fff
+
 ;; VIC Standard/Multi Color Mode Constants
 VIC_Color_Mode_Mask = #$10
 VIC_Color_Mode_Standard = #$00
@@ -48,25 +53,41 @@ VIC_Color_Mode_Multi = #$10
 VIC_Color_Mode_Char_Mask = #$08
 VIC_Color_Mode_Char_Enable = #$08
 VIC_Color_Mode_Char_Disable = #$08
+
 ;; VIC Extended Color Mode Constants
 VIC_Extended_Color_Mode_Mask = #$40
 VIC_Extended_Color_Mode_Disable = #$00
 VIC_Extended_Color_Mode_Enable = #$40
+
 ;; VIC Bitmap Mode Constants
 VIC_Bitmap_Mode_Mask = #$20
 VIC_Bitmap_Mode_Disable = #$00
 VIC_Bitmap_Mode_Enable = #$20
+
 ;; VIC 38/40 Column Mode Constants
 VIC_Column_Mode_Mask = #$08
 VIC_Column_38_Mode = #$00
 VIC_Column_40_Mode = #$08
+
 ;; VIC 24/25 Row Mode Constants
 VIC_Row_Mode_Mask = #$08
 VIC_Row_24_Mode = #$00
 VIC_Row_25_Mode = #$08
+
 ;; VIC Hardware Scrolling
 VIC_Scroll_X_Mask = #$07
 VIC_Scroll_Y_Mask = #$07
+
+;; VIC Sprite Constants
+VIC_Sprite_0 = #$01
+VIC_Sprite_1 = #$02
+VIC_Sprite_2 = #$04
+VIC_Sprite_3 = #$08
+VIC_Sprite_4 = #$10
+VIC_Sprite_5 = #$20
+VIC_Sprite_6 = #$40
+VIC_Sprite_7 = #$80
+VIC_Sprite_All = #$ff
 
 ;; Regular Color Names
 Black = #$00
@@ -193,8 +214,19 @@ start:
 	;jsr TEST_vic_set_scroll_y				; $05 UL Corner
 	;jsr TEST_vic_scroll_y_bitmap_display	; A specific image
 	;jsr TEST_memset
-
-	jsr TEST_memcpy
+	;jsr TEST_memcpy
+	;jsr TEST_vic_get_sprite_enable			; $00 UL corner
+	;jsr TEST_vic_set_sprite_enable			; $0a UL corner
+	;jsr TEST_vic_get_sprite_disable		; $ff UL corner
+	;jsr TEST_vic_set_sprite_disable			; $02 UL corner
+	;jsr TEST_vic_get_sprite_state			; $00 UL corner
+	;jsr TEST_vic_set_sprite_state			; $81 UL corner
+	;jsr TEST_vic_get_mc_sprite_enable		; $00 UL corner
+	;jsr TEST_vic_set_mc_sprite_enable		; $0a UL corner
+	;jsr TEST_vic_get_mc_sprite_disable		; $ff UL corner
+	;jsr TEST_vic_set_mc_sprite_disable		; $02 UL corner
+	;jsr TEST_vic_get_mc_sprite_state		; $00 UL corner
+	jsr TEST_vic_set_mc_sprite_state		; $81 UL corner
 
 exit:
 	rts
@@ -243,6 +275,8 @@ reset_video_memory: .proc
 	jsr vic_set_scroll_x
 	lda #$03
 	jsr vic_set_scroll_y
+	lda VIC_Sprite_All
+	jsr vic_set_sprite_disable
 	rts
 .pend
 
@@ -2106,6 +2140,388 @@ tmp_0:
 .pend
 
 
+
+
+;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; TODO: Start adding Sprite API
+;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; ---------------------------
+;; Function: vic_get_sprite_enable
+;; Check status of denoted sprites.
+;; C64PRG: XXX
+;;
+;; The input value in A is the set of sprites to check.
+;; For each bit, a 1 means to check the enable state of that sprite, 
+;; and a 0 means to ignore to check the state of that sprite.
+;;
+;; The result in A: When the input bit was 1, the same output bit is either
+;; 1 if the sprite is enabled or 0 if it is disabled. When the input bit is
+;; 0, the output bit is 0 for "state unknown".
+;;
+;; Input Registers: A
+;; Return Value: A, the enabled state of each denoted sprite.
+;; Destroys: A
+;; ---------------------------
+vic_get_sprite_enable: .proc
+	and $d015
+	rts
+.pend
+
+TEST_vic_get_sprite_enable: .proc
+	jsr reset_c64
+	lda VIC_Sprite_All
+	jsr vic_get_sprite_enable
+	ldx #$00
+	jsr TESTUtil_display_hex_byte
+.pend
+
+;; ---------------------------
+;; Function: vic_set_sprite_enable
+;; Enable denoted sprites in A.
+;; C64PRG: XXX
+;;
+;; The input value in A is the set of sprites to enable.
+;; For each bit, a 1 means to enable that sprite, 
+;; and a 0 means to ignore that current sprite's state.
+;;
+;; Input Registers: A
+;; Return Value: None
+;; Destroys: A
+;; ---------------------------
+vic_set_sprite_enable: .proc
+	ora $d015
+	sta $d015
+	rts
+.pend
+
+TEST_vic_set_sprite_enable: .proc
+	jsr reset_c64
+
+	;; TODO: make a assembler folded constant
+	;lda #(VIC_Sprite_1 | VIC_Sprite_3) ;; why not working?
+	lda VIC_Sprite_1
+	ora VIC_Sprite_3
+
+	jsr vic_set_sprite_enable
+	lda VIC_Sprite_All
+	jsr vic_get_sprite_enable
+	ldx #$00
+	jsr TESTUtil_display_hex_byte		;; <-- $0a UL corner
+.pend
+
+;; ---------------------------
+;; Function: vic_get_sprite_disable
+;; Check status of denoted sprites.
+;; C64PRG: XXX
+;;
+;; The input value in A is the set of sprites to check.
+;; For each bit, a 1 means to check the disable state of that sprite, 
+;; and a 0 means to ignore to check the state of that sprite.
+;;
+;; The result in A: When the input bit was 1, the same output bit is either
+;; 1 if the sprite is disabled or 0 if it is enabled. When the input bit is
+;; 0, the output bit is 0 for "state unknown".
+;;
+;; Input Registers: A
+;; Return Value: A, the disabled state of each denoted sprite.
+;; Destroys: A
+;; ---------------------------
+vic_get_sprite_disable: .proc
+	and $d015
+	eor #$ff
+	rts
+.pend
+
+TEST_vic_get_sprite_disable: .proc
+	jsr reset_c64
+	lda VIC_Sprite_All
+	jsr vic_get_sprite_disable
+	ldx #$00
+	jsr TESTUtil_display_hex_byte       ;; <--- $ff UL corner
+.pend
+
+;; ---------------------------
+;; Function: vic_set_sprite_disable
+;; Disable denoted sprites in A.
+;; C64PRG: XXX
+;;
+;; The input value in A is the set of sprites to enable.
+;; For each bit, a 1 means to enable that sprite, 
+;; and a 0 means to ignore that current sprite's state.
+;;
+;; Input Registers: A
+;; Return Value: None
+;; Destroys: A
+;; ---------------------------
+vic_set_sprite_disable: .proc
+	eor #$ff
+	and $d015
+	sta $d015
+	rts
+.pend
+
+TEST_vic_set_sprite_disable: .proc
+	jsr reset_c64
+
+	;; Enable sprite 1 and 3
+	;; TODO: make a assembler folded constant
+	;lda #(VIC_Sprite_1 | VIC_Sprite_3) ;; why not working?
+	lda VIC_Sprite_1
+	ora VIC_Sprite_3
+	jsr vic_set_sprite_enable
+
+	;; Disable Sprite 3
+	lda VIC_Sprite_3
+	jsr vic_set_sprite_disable
+
+	lda VIC_Sprite_All
+	jsr vic_get_sprite_enable
+	ldx #$00
+	jsr TESTUtil_display_hex_byte		;; <-- $02 UL corner
+.pend
+
+;; ---------------------------
+;; Function: vic_get_sprite_state
+;; Return the enabled/disabled state of all sprites.
+;; C64PRG: XXX
+;;
+;; The result in A is: if a bit is 1, the sprite is enabled, otherwise the
+;; sprite is disabled.
+;;
+;; Input Registers: A
+;; Return Value: A, the enabled state of each denoted sprite.
+;; Destroys: A
+;; ---------------------------
+vic_get_sprite_state: .proc
+	lda $d015
+	rts
+.pend
+
+TEST_vic_get_sprite_state: .proc
+	jsr reset_c64
+	jsr vic_get_sprite_state
+	ldx #$00
+	jsr TESTUtil_display_hex_byte		;; <-- $00 UL corner
+.pend
+
+;; ---------------------------
+;; Function: vic_set_sprite_state
+;; Set the sprite register to the contents of A.
+;; C64PRG: XXX
+;;
+;; Input Registers: A
+;; Return Value: None
+;; Destroys: A
+;; ---------------------------
+vic_set_sprite_state: .proc
+	sta $d015
+	rts
+.pend
+
+TEST_vic_set_sprite_state: .proc
+	jsr reset_c64
+	lda VIC_Sprite_0
+	ora VIC_Sprite_7
+	jsr vic_set_sprite_state
+	jsr vic_get_sprite_state
+	ldx #$00
+	jsr TESTUtil_display_hex_byte		;; <-- $81 UL corner
+.pend
+
+
+
+;; multi-color sprites
+; $d01c, bit-7 is multi-color mode for sprite 7, and so forth.
+
+;; ---------------------------
+;; Function: vic_get_mc_sprite_enable
+;; Check status of denoted multicolor sprites.
+;; C64PRG: XXX
+;;
+;; The input value in A is the set of sprites to check.
+;; For each bit, a 1 means to check the enable state of that sprite, 
+;; and a 0 means to ignore to check the state of that sprite.
+;;
+;; The result in A: When the input bit was 1, the same output bit is either
+;; 1 if the sprite is enabled or 0 if it is disabled. When the input bit is
+;; 0, the output bit is 0 for "state unknown".
+;;
+;; Input Registers: A
+;; Return Value: A, the enabled state of each denoted sprite.
+;; Destroys: A
+;; ---------------------------
+vic_get_mc_sprite_enable: .proc
+	and $d01c
+	rts
+.pend
+
+TEST_vic_get_mc_sprite_enable: .proc
+	jsr reset_c64
+	lda VIC_Sprite_All
+	jsr vic_get_mc_sprite_enable
+	ldx #$00
+	jsr TESTUtil_display_hex_byte     ;; <---- $00 UL corner
+.pend
+
+;; ---------------------------
+;; Function: vic_set_mc_sprite_enable
+;; Enable denoted multicolor sprites in A.
+;; C64PRG: XXX
+;;
+;; The input value in A is the set of sprites to enable.
+;; For each bit, a 1 means to enable that sprite, 
+;; and a 0 means to ignore that current sprite's state.
+;;
+;; Input Registers: A
+;; Return Value: None
+;; Destroys: A
+;; ---------------------------
+vic_set_mc_sprite_enable: .proc
+	ora $d01c
+	sta $d01c
+	rts
+.pend
+
+TEST_vic_set_mc_sprite_enable: .proc
+	jsr reset_c64
+
+	;; TODO: make a assembler folded constant
+	;lda #(VIC_Sprite_1 | VIC_Sprite_3) ;; why not working?
+	lda VIC_Sprite_1
+	ora VIC_Sprite_3
+
+	jsr vic_set_mc_sprite_enable
+	lda VIC_Sprite_All
+	jsr vic_get_mc_sprite_enable
+	ldx #$00
+	jsr TESTUtil_display_hex_byte		;; <-- $0a UL corner
+.pend
+
+;; ---------------------------
+;; Function: vic_get_mc_sprite_disable
+;; Check status of denoted multicolor sprites.
+;; C64PRG: XXX
+;;
+;; The input value in A is the set of sprites to check.
+;; For each bit, a 1 means to check the disable state of that sprite, 
+;; and a 0 means to ignore to check the state of that sprite.
+;;
+;; The result in A: When the input bit was 1, the same output bit is either
+;; 1 if the sprite is disabled or 0 if it is enabled. When the input bit is
+;; 0, the output bit is 0 for "state unknown".
+;;
+;; Input Registers: A
+;; Return Value: A, the disabled state of each denoted sprite.
+;; Destroys: A
+;; ---------------------------
+vic_get_mc_sprite_disable: .proc
+	and $d01c
+	eor #$ff
+	rts
+.pend
+
+TEST_vic_get_mc_sprite_disable: .proc
+	jsr reset_c64
+	lda VIC_Sprite_All
+	jsr vic_get_mc_sprite_disable
+	ldx #$00
+	jsr TESTUtil_display_hex_byte       ;; <--- $ff UL corner
+.pend
+
+;; ---------------------------
+;; Function: vic_set_mc_sprite_disable
+;; Disable denoted multicolor sprites in A.
+;; C64PRG: XXX
+;;
+;; The input value in A is the set of sprites to enable.
+;; For each bit, a 1 means to enable that sprite, 
+;; and a 0 means to ignore that current sprite's state.
+;;
+;; Input Registers: A
+;; Return Value: None
+;; Destroys: A
+;; ---------------------------
+vic_set_mc_sprite_disable: .proc
+	eor #$ff
+	and $d01c
+	sta $d01c
+	rts
+.pend
+
+TEST_vic_set_mc_sprite_disable: .proc
+	jsr reset_c64
+
+	;; Enable sprite 1 and 3
+	;; TODO: make a assembler folded constant
+	;lda #(VIC_Sprite_1 | VIC_Sprite_3) ;; why not working?
+	lda VIC_Sprite_1
+	ora VIC_Sprite_3
+	jsr vic_set_mc_sprite_enable
+
+	;; Disable Sprite 3
+	lda VIC_Sprite_3
+	jsr vic_set_mc_sprite_disable
+
+	lda VIC_Sprite_All
+	jsr vic_get_mc_sprite_enable
+	ldx #$00
+	jsr TESTUtil_display_hex_byte		;; <-- $02 UL corner
+.pend
+
+;; ---------------------------
+;; Function: vic_get_mc_sprite_state
+;; Return the enabled/disabled state of all multicolor sprites.
+;; C64PRG: XXX
+;;
+;; The result in A is: if a bit is 1, the sprite is enabled, otherwise the
+;; sprite is disabled.
+;;
+;; Input Registers: A
+;; Return Value: A, the enabled state of each denoted sprite.
+;; Destroys: A
+;; ---------------------------
+vic_get_mc_sprite_state: .proc
+	lda $d01c
+	rts
+.pend
+
+TEST_vic_get_mc_sprite_state: .proc
+	jsr reset_c64
+	jsr vic_get_mc_sprite_state
+	ldx #$00
+	jsr TESTUtil_display_hex_byte		;; <-- $00 UL corner
+.pend
+
+;; ---------------------------
+;; Function: vic_set_mc_sprite_state
+;; Set the multicolor sprite register to the contents of A.
+;; C64PRG: XXX
+;;
+;; Input Registers: A
+;; Return Value: None
+;; Destroys: A
+;; ---------------------------
+vic_set_mc_sprite_state: .proc
+	sta $d01c
+	rts
+.pend
+
+TEST_vic_set_mc_sprite_state: .proc
+	jsr reset_c64
+	lda VIC_Sprite_0
+	ora VIC_Sprite_7
+	jsr vic_set_mc_sprite_state
+	jsr vic_get_mc_sprite_state
+	ldx #$00
+	jsr TESTUtil_display_hex_byte		;; <-- $81 UL corner
+.pend
+
+
+
+
+
+
 hr_sprite_data_start:
 hr_sprite_0:
 	sprite_row %111111111111111111111111
@@ -2294,70 +2710,6 @@ hr_sprite_7:
 hr_sprite_data_end:
 
 
-;; VIC Sprite Constants
-VIC_Sprite_0_Mask = #$01
-VIC_Sprite_0_Enable = #$01
-VIC_Sprite_0_Disable = #$00
-VIC_Sprite_1_Mask = #$02
-VIC_Sprite_1_Enable = #$02
-VIC_Sprite_1_Disable = #$00
-VIC_Sprite_2_Mask = #$04
-VIC_Sprite_2_Enable = #$04
-VIC_Sprite_2_Disable = #$00
-VIC_Sprite_3_Mask = #$08
-VIC_Sprite_3_Enable = #$08
-VIC_Sprite_3_Disable = #$00
-VIC_Sprite_4_Mask = #$10
-VIC_Sprite_4_Enable = #$10
-VIC_Sprite_4_Disable = #$00
-VIC_Sprite_5_Mask = #$20
-VIC_Sprite_5_Enable = #$20
-VIC_Sprite_5_Disable = #$00
-VIC_Sprite_6_Mask = #$40
-VIC_Sprite_6_Enable = #$40
-VIC_Sprite_6_Disable = #$00
-VIC_Sprite_7_Mask = #$80
-VIC_Sprite_7_Enable = #$80
-VIC_Sprite_7_Disable = #$00
-VIC_Sprite_All_Mask = #$ff
-VIC_Sprite_All_Enable = #$ff
-VIC_Sprite_All_Disable = #$00
 
-;; standard sprites
-; $d015, bit-7 is sprite 7, ..., bit-0 is sprite-0 ; 1 to enable
-
-
-
-;; VIC Sprite Color Mode Constants
-VIC_Sprite_0_MC_Mask = #$01
-VIC_Sprite_0_MC_Enable = #$01
-VIC_Sprite_0_MC_Disable = #$00
-VIC_Sprite_1_MC_Mask = #$02
-VIC_Sprite_1_MC_Enable = #$02
-VIC_Sprite_1_MC_Disable = #$00
-VIC_Sprite_2_MC_Mask = #$04
-VIC_Sprite_2_MC_Enable = #$04
-VIC_Sprite_2_MC_Disable = #$00
-VIC_Sprite_3_MC_Mask = #$08
-VIC_Sprite_3_MC_Enable = #$08
-VIC_Sprite_3_MC_Disable = #$00
-VIC_Sprite_4_MC_Mask = #$10
-VIC_Sprite_4_MC_Enable = #$10
-VIC_Sprite_4_MC_Disable = #$00
-VIC_Sprite_5_MC_Mask = #$20
-VIC_Sprite_5_MC_Enable = #$20
-VIC_Sprite_5_MC_Disable = #$00
-VIC_Sprite_6_MC_Mask = #$40
-VIC_Sprite_6_MC_Enable = #$40
-VIC_Sprite_6_MC_Disable = #$00
-VIC_Sprite_7_MC_Mask = #$80
-VIC_Sprite_7_MC_Enable = #$80
-VIC_Sprite_7_MC_Disable = #$00
-VIC_Sprite_All_MC_Mask = #$ff
-VIC_Sprite_All_MC_Enable = #$ff
-VIC_Sprite_All_MC_Disable = #$00
-
-;; multi-color sprites
-; $d01c, bit-7 is multi-color mode for sprite 7, and so forth.
 
 
