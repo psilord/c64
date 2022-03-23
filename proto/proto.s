@@ -11,134 +11,134 @@
 ;; VIC-II Constants: C64PRG: p102
 ;; ;;;;;;;;;;;;;;;;;;;;;
 ; Video Bank Identification (sets video bank start)
-VIC_VBankLoc_Mask = #$03		; Bits 1-0
-VIC_VBankLoc_0 = #$03			; $0000 - $3fff
-VIC_VBankLoc_1 = #$02   		; $4000 - $7fff
-VIC_VBankLoc_2 = #$01			; $8000 - $bfff
-VIC_VBankLoc_3 = #$00   		; $C000 - $ffff (default value)
+VIC_VBankLoc_Mask = $03		; Bits 1-0
+VIC_VBankLoc_0 = $03			; $0000 - $3fff
+VIC_VBankLoc_1 = $02   		; $4000 - $7fff
+VIC_VBankLoc_2 = $01			; $8000 - $bfff
+VIC_VBankLoc_3 = $00   		; $C000 - $ffff (default value)
 
 ; Screen Memory Location (as an offset from the Video Bank start)
-VIC_ScrMemLoc_Mask = #$f0		; Bits 7-4
-VIC_ScrMemLoc_0 = #$00			; $0000
-VIC_ScrMemLoc_1 = #$10			; $0400 (default)
-VIC_ScrMemLoc_2 = #$20			; $0800
-VIC_ScrMemLoc_3 = #$30			; $0c00
-VIC_ScrMemLoc_4 = #$40			; $1000
-VIC_ScrMemLoc_5 = #$50			; $1400
-VIC_ScrMemLoc_6 = #$60			; $1800
-VIC_ScrMemLoc_7 = #$70			; $1C00
-VIC_ScrMemLoc_8 = #$80			; $2000
-VIC_ScrMemLoc_9 = #$90			; $2400
-VIC_ScrMemLoc_a = #$a0			; $2800
-VIC_ScrMemLoc_b = #$b0			; $2C00
-VIC_ScrMemLoc_c = #$c0			; $3000
-VIC_ScrMemLoc_d = #$d0			; $3400
-VIC_ScrMemLoc_e = #$e0			; $3800
-VIC_ScrMemLoc_f = #$f0			; $3c00
+VIC_ScrMemLoc_Mask = $f0		; Bits 7-4
+VIC_ScrMemLoc_0 = $00			; $0000
+VIC_ScrMemLoc_1 = $10			; $0400 (default)
+VIC_ScrMemLoc_2 = $20			; $0800
+VIC_ScrMemLoc_3 = $30			; $0c00
+VIC_ScrMemLoc_4 = $40			; $1000
+VIC_ScrMemLoc_5 = $50			; $1400
+VIC_ScrMemLoc_6 = $60			; $1800
+VIC_ScrMemLoc_7 = $70			; $1C00
+VIC_ScrMemLoc_8 = $80			; $2000
+VIC_ScrMemLoc_9 = $90			; $2400
+VIC_ScrMemLoc_a = $a0			; $2800
+VIC_ScrMemLoc_b = $b0			; $2C00
+VIC_ScrMemLoc_c = $c0			; $3000
+VIC_ScrMemLoc_d = $d0			; $3400
+VIC_ScrMemLoc_e = $e0			; $3800
+VIC_ScrMemLoc_f = $f0			; $3c00
 
 ;; Character Memory Location (as an offset from the Video Bank start)
-VIC_CharMemLoc_Mask = #$0e		; Bits 3-1
-VIC_CharMemLoc_0 = #$00			; $0000 - $07ff
-VIC_CharMemLoc_1 = #$02			; $0800 - $0fff
-VIC_CharMemLoc_2 = #$04			; $1000 - $17ff (Rom Image Bank 0 & 2 block 0 Upper)
-VIC_CharMemLoc_3 = #$06			; $1800 - $1fff (Rom Image Bank 0 & 2 block 1 Lower)
-VIC_CharMemLoc_4 = #$08			; $2000 - $27ff
-VIC_CharMemLoc_5 = #$0a			; $2800 - $2fff
-VIC_CharMemLoc_6 = #$0c			; $3000 - $37ff
-VIC_CharMemLoc_7 = #$0e			; $3800 - $3fff
+VIC_CharMemLoc_Mask = $0e		; Bits 3-1
+VIC_CharMemLoc_0 = $00			; $0000 - $07ff
+VIC_CharMemLoc_1 = $02			; $0800 - $0fff
+VIC_CharMemLoc_2 = $04			; $1000 - $17ff (Rom Image Bank 0 & 2 block 0 Upper)
+VIC_CharMemLoc_3 = $06			; $1800 - $1fff (Rom Image Bank 0 & 2 block 1 Lower)
+VIC_CharMemLoc_4 = $08			; $2000 - $27ff
+VIC_CharMemLoc_5 = $0a			; $2800 - $2fff
+VIC_CharMemLoc_6 = $0c			; $3000 - $37ff
+VIC_CharMemLoc_7 = $0e			; $3800 - $3fff
 
 ;; VIC Standard/Multi Color Mode Constants
-VIC_Color_Mode_Mask = #$10
-VIC_Color_Mode_Standard = #$00
-VIC_Color_Mode_Multi = #$10
+VIC_Color_Mode_Mask = $10
+VIC_Color_Mode_Standard = $00
+VIC_Color_Mode_Multi = $10
 ; The mask in the color memory for multi-color mode
-VIC_Color_Mode_Char_Mask = #$08
-VIC_Color_Mode_Char_Enable = #$08
-VIC_Color_Mode_Char_Disable = #$08
+VIC_Color_Mode_Char_Mask = $08
+VIC_Color_Mode_Char_Enable = $08
+VIC_Color_Mode_Char_Disable = $08
 
 ;; VIC Extended Color Mode Constants
-VIC_Extended_Color_Mode_Mask = #$40
-VIC_Extended_Color_Mode_Disable = #$00
-VIC_Extended_Color_Mode_Enable = #$40
+VIC_Extended_Color_Mode_Mask = $40
+VIC_Extended_Color_Mode_Disable = $00
+VIC_Extended_Color_Mode_Enable = $40
 
 ;; VIC Bitmap Mode Constants
-VIC_Bitmap_Mode_Mask = #$20
-VIC_Bitmap_Mode_Disable = #$00
-VIC_Bitmap_Mode_Enable = #$20
+VIC_Bitmap_Mode_Mask = $20
+VIC_Bitmap_Mode_Disable = $00
+VIC_Bitmap_Mode_Enable = $20
 
 ;; VIC 38/40 Column Mode Constants
-VIC_Column_Mode_Mask = #$08
-VIC_Column_38_Mode = #$00
-VIC_Column_40_Mode = #$08
+VIC_Column_Mode_Mask = $08
+VIC_Column_38_Mode = $00
+VIC_Column_40_Mode = $08
 
 ;; VIC 24/25 Row Mode Constants
-VIC_Row_Mode_Mask = #$08
-VIC_Row_24_Mode = #$00
-VIC_Row_25_Mode = #$08
+VIC_Row_Mode_Mask = $08
+VIC_Row_24_Mode = $00
+VIC_Row_25_Mode = $08
 
 ;; VIC Hardware Scrolling
-VIC_Scroll_X_Mask = #$07
-VIC_Scroll_Y_Mask = #$07
+VIC_Scroll_X_Mask = $07
+VIC_Scroll_Y_Mask = $07
 
 ;; VIC Sprite Constants
-VIC_Sprite_0 = #$01
-VIC_Sprite_1 = #$02
-VIC_Sprite_2 = #$04
-VIC_Sprite_3 = #$08
-VIC_Sprite_4 = #$10
-VIC_Sprite_5 = #$20
-VIC_Sprite_6 = #$40
-VIC_Sprite_7 = #$80
-VIC_Sprite_All = #$ff
+VIC_Sprite_0 = $01
+VIC_Sprite_1 = $02
+VIC_Sprite_2 = $04
+VIC_Sprite_3 = $08
+VIC_Sprite_4 = $10
+VIC_Sprite_5 = $20
+VIC_Sprite_6 = $40
+VIC_Sprite_7 = $80
+VIC_Sprite_All = $ff
 
 ;; Regular Color Names
-Black = #$00
-White = #$01
-Red = #$02
-Cyan = #$03
-Purple = #$04
-Green = #$05
-Blue = #$06
-Yellow = #$07
-Orange = #$08
-Brown = #$09
-LightRed = #$0a
-Gray1 = #$0b
+Black = $00
+White = $01
+Red = $02
+Cyan = $03
+Purple = $04
+Green = $05
+Blue = $06
+Yellow = $07
+Orange = $08
+Brown = $09
+LightRed = $0a
+Gray1 = $0b
 Grey1 = Gray1
-Gray2 = #$0c
+Gray2 = $0c
 Grey2 = Gray2
-LightGreen = #$0d
-LightBlue = #$0e
-Gray3 = #$0f
+LightGreen = $0d
+LightBlue = $0e
+Gray3 = $0f
 Grey3 = Gray3
 ;; Color names that include the Multicolor bit for multi-color character mode.
-MC_Black = #$08
-MC_White = #$09
-MC_Red = #$0a
-MC_Cyan = #$0b
-MC_Purple = #$0c
-MC_Green = #$0d
-MC_Blue = #$0e
-MC_Yellow = #$0f
+MC_Black = $08
+MC_White = $09
+MC_Red = $0a
+MC_Cyan = $0b
+MC_Purple = $0c
+MC_Green = $0d
+MC_Blue = $0e
+MC_Yellow = $0f
 
 
 ;; CIA1 Constants
 ; Manipulation of Timer A control register
-CIA1_TimerA_Timer_Mask = #$01	; Bit 0
-CIA1_TimerA_Timer_Disable = #$00
-CIA1_TimerA_Timer_Enable = #$01
+CIA1_TimerA_Timer_Mask = $01	; Bit 0
+CIA1_TimerA_Timer_Disable = $00
+CIA1_TimerA_Timer_Enable = $01
 
 ;; 6510 Processor Port Constants
-PP_RAM_Mask = #$07
-PP_BASIC_Mask = #$01
-PP_BASIC_Enable = #$01
-PP_BASIC_Disable = #$00
-PP_Kernel_Mask = #$02
-PP_Kernel_Enable = #$02
-PP_Kernel_Disable = #$00
-PP_Char_Mask = #$04
-PP_Char_Enable = #$00
-PP_Char_Disable = #$04
+PP_RAM_Mask = $07
+PP_BASIC_Mask = $01
+PP_BASIC_Enable = $01
+PP_BASIC_Disable = $00
+PP_Kernel_Mask = $02
+PP_Kernel_Enable = $02
+PP_Kernel_Disable = $00
+PP_Char_Mask = $04
+PP_Char_Enable = $00
+PP_Char_Disable = $04
 
 ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Macros
@@ -187,7 +187,7 @@ main: .proc
 	;jsr TEST_vic_get_char_mem_loc			; B UL corner
 	;jsr TEST_vic_set_char_mem_loc			; smiley face first row of text
 	;jsr TEST_cia1_timer_a_get_timer		; A UL corner
-	;jsr TEST_cia1_timer_a_set_timer		; AB UL corner
+	;jsr TEST_cia1_timer_a_set_timer		; ABA UL corner
 	;jsr TEST_pp_get_ram_state				; $07 UL corner
 	;jsr TEST_pp_set_ram_state				; $04 UL corner
 	;jsr TEST_pp_get_ram_basic_state		; $01 UL corner
@@ -216,8 +216,8 @@ main: .proc
 	;jsr TEST_vic_get_scroll_y				; $03 UL Corner
 	;jsr TEST_vic_set_scroll_y				; $05 UL Corner
 	;jsr TEST_vic_scroll_y_bitmap_display	; A specific image
-	;jsr TEST_memset
-	;jsr TEST_memcpy
+	;jsr TEST_memset						; screen full of A
+	;jsr TEST_memcpy						; row of A, blank line, row of A
 
 	;; TODO: Fixup docstrings for sprite API.
 
@@ -249,7 +249,6 @@ main: .proc
 	;jsr TEST_vic_get_exv_sprite_state		; $00 UL corner
 	jsr TEST_vic_set_exv_sprite_state		; $81 UL corner
 
-
 exit:
 	rts
 .pend
@@ -269,35 +268,35 @@ reset_c64: .proc
 .pend
 
 reset_processor_port: .proc
-	lda PP_Kernel_Enable
-	ora PP_Char_Disable
-	ora PP_BASIC_Enable
+	lda #PP_Kernel_Enable
+	ora #PP_Char_Disable
+	ora #PP_BASIC_Enable
 	jsr pp_set_ram_state
 	rts
 .pend
 
 reset_video_memory: .proc
-	lda VIC_VBankLoc_0
+	lda #VIC_VBankLoc_0
 	jsr vic_set_video_bank_loc
-	lda VIC_ScrMemLoc_1
+	lda #VIC_ScrMemLoc_1
 	jsr vic_set_scr_mem_loc
-	lda VIC_CharMemLoc_2 ;; Character set 1 (upper case)
+	lda #VIC_CharMemLoc_2 ;; Character set 1 (upper case)
 	jsr vic_set_char_mem_loc
-	lda VIC_Color_Mode_Char_Disable
+	lda #VIC_Color_Mode_Char_Disable
 	jsr vic_set_color_mode_state
-	lda VIC_Bitmap_Mode_Disable
+	lda #VIC_Bitmap_Mode_Disable
 	jsr vic_set_bitmap_mode_state
 	lda #$20 ;; Space Character in character set 1
 	jsr vic_clear_default_screen
-	lda VIC_Column_40_Mode
+	lda #VIC_Column_40_Mode
 	jsr vic_set_column_mode_state
-	lda VIC_Row_25_Mode
+	lda #VIC_Row_25_Mode
 	jsr vic_set_row_mode_state
 	lda #$00
 	jsr vic_set_scroll_x
 	lda #$03
 	jsr vic_set_scroll_y
-	lda VIC_Sprite_All
+	lda #VIC_Sprite_All
 	jsr vic_set_sprite_disable
 	rts
 .pend
@@ -565,7 +564,7 @@ done:
 
 vic_get_video_bank_loc: .proc
 	lda $dd00
-	and VIC_VBankLoc_Mask
+	and #VIC_VBankLoc_Mask
 	rts
 .pend
 
@@ -608,13 +607,13 @@ cia1_enable_vbank_select: .proc
 ;; ---------------------------
 
 vic_set_video_bank_loc: .proc
-	and VIC_VBankLoc_Mask
+	and #VIC_VBankLoc_Mask
 	sta tmp_0
 
 	jsr cia1_enable_vbank_select
 
 	lda $dd00 ;; load current bank bits register
-	and ~VIC_VBankLoc_Mask ;; mask away the current bank bits, preserve other stuff
+	and ~#VIC_VBankLoc_Mask ;; mask away the current bank bits, preserve other
 	ora tmp_0
 	sta $dd00
 	rts
@@ -624,7 +623,7 @@ tmp_0:
 
 TEST_vic_set_video_bank_loc: .proc
 	jsr reset_c64
-	lda VIC_VBankLoc_2
+	lda #VIC_VBankLoc_2
 	jsr vic_set_video_bank_loc
 	lda #$01
 	sta $8400 ;; VBank_2 @ $8000 + screen memory loc @ $0400
@@ -643,7 +642,7 @@ TEST_vic_set_video_bank_loc: .proc
 
 vic_get_scr_mem_loc: .proc
 	lda $d018
-	and VIC_ScrMemLoc_Mask
+	and #VIC_ScrMemLoc_Mask
 	rts
 .pend
 
@@ -665,10 +664,10 @@ TEST_vic_get_scr_mem_loc: .proc
 ;; ---------------------------
 
 vic_set_scr_mem_loc: .proc
-	and VIC_ScrMemLoc_Mask
+	and #VIC_ScrMemLoc_Mask
 	sta tmp_0
 	lda $d018
-	and ~VIC_ScrMemLoc_Mask
+	and ~#VIC_ScrMemLoc_Mask
 	ora tmp_0
 	sta $d018
 	rts
@@ -678,7 +677,7 @@ tmp_0:
 
 TEST_vic_set_scr_mem_loc: .proc
 	jsr reset_c64
-	lda VIC_ScrMemLoc_8
+	lda #VIC_ScrMemLoc_8
 	jsr vic_set_scr_mem_loc
 	lda #$01
 	sta $2000 ;; VBank_0 @ $0000 + screen memory loc @ $2000
@@ -698,13 +697,13 @@ TEST_vic_set_scr_mem_loc: .proc
 
 vic_get_char_mem_loc: .proc
 	lda $d018
-	and VIC_CharMemLoc_Mask
+	and #VIC_CharMemLoc_Mask
 	rts
 .pend
 
 TEST_vic_get_char_mem_loc: .proc
 	jsr reset_c64 
-	jsr vic_get_char_mem_loc ;; default is VIC_CharMemLoc_2, so letter B after shift
+	jsr vic_get_char_mem_loc ;; default is #VIC_CharMemLoc_2, so letter B after shift
 	lsr a
 	sta $0400
 	rts
@@ -722,10 +721,10 @@ TEST_vic_get_char_mem_loc: .proc
 ;; ---------------------------
 
 vic_set_char_mem_loc: .proc
-	and VIC_CharMemLoc_Mask
+	and #VIC_CharMemLoc_Mask
 	sta tmp_0
 	lda $d018
-	and ~VIC_CharMemLoc_Mask
+	and ~#VIC_CharMemLoc_Mask
 	ora tmp_0
 	sta $d018
 	rts
@@ -748,7 +747,7 @@ byte_copy_loop:
 	iny
 	jmp byte_copy_loop
 done_byte_copy:
-	lda VIC_CharMemLoc_4 ;; In VBank_0
+	lda #VIC_CharMemLoc_4 ;; In VBank_0
 	jsr vic_set_char_mem_loc
 	;; now display the smiley face as the first row of text
 	clc
@@ -784,7 +783,7 @@ smiley_face:
 ;; ---------------------------
 cia1_timer_a_get_timer: .proc
 	lda $dc0e
-	and CIA1_TimerA_Timer_Mask
+	and #CIA1_TimerA_Timer_Mask
 	rts
 .pend
 
@@ -803,9 +802,9 @@ TEST_cia1_timer_a_get_timer: .proc
 ;; X holds offset from start of screen
 ;; ---------------------------
 TESTUtil_display_CIA1_TimerA_Timer_value: .proc
-	cmp CIA1_TimerA_Timer_Enable
+	cmp #CIA1_TimerA_Timer_Enable
 	beq is_on
-	cmp CIA1_TimerA_Timer_Disable
+	cmp #CIA1_TimerA_Timer_Disable
 	beq is_off
 	jmp is_wrong
 is_on:
@@ -832,10 +831,10 @@ display_result:
 ;; ---------------------------
 
 cia1_timer_a_set_timer: .proc
-	and CIA1_TimerA_Timer_Mask
+	and #CIA1_TimerA_Timer_Mask
 	sta tmp_0
 	lda $dc0e
-	and ~CIA1_TimerA_Timer_Mask
+	and ~#CIA1_TimerA_Timer_Mask
 	ora tmp_0
 	sta $dc0e
 	rts
@@ -849,14 +848,14 @@ TEST_cia1_timer_a_set_timer: .proc
 	jsr cia1_timer_a_get_timer
 	jsr TESTUtil_display_CIA1_TimerA_Timer_value	; emit A
 
-	lda CIA1_TimerA_Timer_Disable
+	lda #CIA1_TimerA_Timer_Disable
 	jsr cia1_timer_a_set_timer
 
 	ldx #$01
 	jsr cia1_timer_a_get_timer
 	jsr TESTUtil_display_CIA1_TimerA_Timer_value	; emit B
 
-	lda CIA1_TimerA_Timer_Enable
+	lda #CIA1_TimerA_Timer_Enable
 	jsr cia1_timer_a_set_timer
 
 	ldx #$02
@@ -878,7 +877,7 @@ TEST_cia1_timer_a_set_timer: .proc
 
 pp_get_ram_state: .proc
 	lda $0001
-	and PP_RAM_Mask
+	and #PP_RAM_Mask
 	rts
 .pend
 
@@ -962,10 +961,10 @@ hex_to_char_rom_loc_lut:
 ;; Destroys: A
 ;; ---------------------------
 pp_set_ram_state: .proc
-	and PP_RAM_Mask
+	and #PP_RAM_Mask
 	sta tmp_0
 	lda $0001
-	and ~PP_RAM_Mask
+	and ~#PP_RAM_Mask
 	ora tmp_0
 	sta $0001
 	rts
@@ -979,9 +978,9 @@ TEST_pp_set_ram_state: .proc
 	;; TODO: Might have to turn off some (all?) interrupt timers too while
 	;; basic and the kernel are off. Look into that.
 
-	lda PP_Kernel_Disable
-	ora PP_Char_Disable
-	ora PP_BASIC_Disable
+	lda #PP_Kernel_Disable
+	ora #PP_Char_Disable
+	ora #PP_BASIC_Disable
 	jsr pp_set_ram_state
 
 	jsr pp_get_ram_state
@@ -1013,7 +1012,7 @@ tmp_0:
 
 pp_get_ram_basic_state: .proc
 	lda $0001
-	and PP_BASIC_Mask
+	and #PP_BASIC_Mask
 	rts
 .pend
 
@@ -1038,10 +1037,10 @@ TEST_pp_get_ram_basic_state: .proc
 ;; Destroys: A
 ;; ---------------------------
 pp_set_ram_basic_state: .proc
-	and PP_BASIC_Mask
+	and #PP_BASIC_Mask
 	sta tmp_0
 	lda $0001
-	and ~PP_BASIC_Mask
+	and ~#PP_BASIC_Mask
 	ora tmp_0
 	sta $0001
 	rts
@@ -1051,7 +1050,7 @@ tmp_0:
 
 TEST_pp_set_ram_basic_state: .proc
 	jsr reset_c64
-	lda PP_BASIC_Disable
+	lda #PP_BASIC_Disable
 	jsr pp_set_ram_basic_state
 	jsr pp_get_ram_basic_state
 	sta tmp_0
@@ -1079,7 +1078,7 @@ tmp_0:
 
 pp_get_ram_kernel_state: .proc
 	lda $0001
-	and PP_Kernel_Mask
+	and #PP_Kernel_Mask
 	rts
 .pend
 
@@ -1101,10 +1100,10 @@ TEST_pp_get_ram_kernel_state: .proc
 ;; Destroys: A
 ;; ---------------------------
 pp_set_ram_kernel_state: .proc
-	and PP_Kernel_Mask
+	and #PP_Kernel_Mask
 	sta tmp_0
 	lda $0001
-	and ~PP_Kernel_Mask
+	and ~#PP_Kernel_Mask
 	ora tmp_0
 	sta $0001
 	rts
@@ -1114,7 +1113,7 @@ tmp_0:
 
 TEST_pp_set_ram_kernel_state: .proc
 	jsr reset_c64
-	lda PP_Kernel_Disable
+	lda #PP_Kernel_Disable
 	jsr pp_set_ram_kernel_state
 	jsr pp_get_ram_kernel_state
 	sta tmp_0
@@ -1141,18 +1140,18 @@ tmp_0:
 ;; ---------------------------
 
 pp_get_ram_char_state: .proc
-	lda $0001
-	and PP_Char_Mask
+	lda $01
+	and #PP_Char_Mask
 	rts
 .pend
 
 TEST_pp_get_ram_char_state: .proc
 	jsr reset_c64
-	lda CIA1_TimerA_Timer_Disable
+	lda #CIA1_TimerA_Timer_Disable
 	jsr cia1_timer_a_set_timer
 	jsr pp_get_ram_char_state
 	sta tmp_0
-	lda CIA1_TimerA_Timer_Enable
+	lda #CIA1_TimerA_Timer_Enable
 	jsr cia1_timer_a_set_timer
 	lda tmp_0
 	ldx #$00
@@ -1172,10 +1171,10 @@ tmp_0:
 ;; Destroys: A
 ;; ---------------------------
 pp_set_ram_char_state: .proc
-	and PP_Char_Mask
+	and #PP_Char_Mask
 	sta tmp_0
 	lda $0001
-	and ~PP_Char_Mask
+	and ~#PP_Char_Mask
 	ora tmp_0
 	sta $0001
 	rts
@@ -1185,14 +1184,14 @@ tmp_0:
 
 TEST_pp_set_ram_char_state: .proc
 	jsr reset_c64
-	lda CIA1_TimerA_Timer_Disable
+	lda #CIA1_TimerA_Timer_Disable
 	jsr cia1_timer_a_set_timer
-	lda PP_Char_Enable
+	lda #PP_Char_Enable
 	jsr pp_set_ram_char_state
 	jsr pp_get_ram_char_state
 	sta tmp_0
 	jsr reset_processor_port
-	lda CIA1_TimerA_Timer_Enable
+	lda #CIA1_TimerA_Timer_Enable
 	jsr cia1_timer_a_set_timer
 	lda tmp_0
 	ldx #$00
@@ -1208,7 +1207,7 @@ tmp_0:
 ;; C64PRG: p115
 ;;
 ;; The return value in A will be one of these two constants:
-;; 	VIC_Color_Mode_Standard, VIC_Color_Mode_Multi
+;; 	#VIC_Color_Mode_Standard, #VIC_Color_Mode_Multi
 ;;
 ;; Input Registers: None
 ;; Return Value: A
@@ -1217,7 +1216,7 @@ tmp_0:
 
 vic_get_color_mode_state: .proc
 	lda $d016
-	and VIC_Color_Mode_Mask
+	and #VIC_Color_Mode_Mask
 	rts
 .pend
 
@@ -1235,7 +1234,7 @@ TEST_vic_get_color_mode_state: .proc
 ;; C64PRG: p115
 ;;
 ;; The input value in A must be one of these two constants:
-;; 	VIC_Color_Mode_Standard, VIC_Color_Mode_Multi
+;; 	#VIC_Color_Mode_Standard, #VIC_Color_Mode_Multi
 ;;
 ;; Input Registers: A
 ;; Return Value: None
@@ -1243,10 +1242,10 @@ TEST_vic_get_color_mode_state: .proc
 ;; ---------------------------
 
 vic_set_color_mode_state: .proc
-	and VIC_Color_Mode_Mask
+	and #VIC_Color_Mode_Mask
 	sta tmp_0
 	lda $d016
-	and ~VIC_Color_Mode_Mask
+	and ~#VIC_Color_Mode_Mask
 	ora tmp_0
 	sta $d016
 	rts
@@ -1256,11 +1255,11 @@ tmp_0:
 
 TEST_vic_set_color_mode_state: .proc
 	jsr reset_c64
-	lda VIC_Color_Mode_Multi
+	lda #VIC_Color_Mode_Multi
 	jsr vic_set_color_mode_state
 	jsr vic_get_color_mode_state
 	sta tmp_0
-	lda VIC_Color_Mode_Standard
+	lda #VIC_Color_Mode_Standard
 	jsr vic_set_color_mode_state
 	lda tmp_0
 	ldx #$00
@@ -1286,22 +1285,22 @@ font_copy_loop:
 font_copy_done:
 
 	;; tell vic where to find new font
-	lda VIC_CharMemLoc_6
+	lda #VIC_CharMemLoc_6
 	jsr vic_set_char_mem_loc
 
 	;; turn on multi color mode
-	lda VIC_Color_Mode_Multi
+	lda #VIC_Color_Mode_Multi
 	jsr vic_set_color_mode_state
 
 	lda #$00 ;; NOTE: The empty background color char in the font.
 	jsr vic_clear_default_screen
 
 	;; set up color registers
-	lda Black
+	lda #Black
 	sta $d021 ;; background color #0 (screen color)
-	lda White
+	lda #White
 	sta $d022 ;; background color #1
-	lda Red
+	lda #Red
 	sta $d023 ;; background color #2
 
 	;; show all Multicolor font characters.
@@ -1311,7 +1310,7 @@ display_chars_loop:
 	beq display_chars_done
 	txa
 	sta $0400,x
-	lda MC_Cyan
+	lda #MC_Cyan
 	sta $d800,x
 	inx
 	jmp display_chars_loop
@@ -1483,7 +1482,7 @@ end_multi_char_font:
 ;; C64PRG: p120
 ;;
 ;; The return value in A will be one of these two constants:
-;; 	VIC_Extended_Color_Mode_Enable, or VIC_Extended_Color_Mode_Disable
+;; 	#VIC_Extended_Color_Mode_Enable, or #VIC_Extended_Color_Mode_Disable
 ;;
 ;; Input Registers: None
 ;; Return Value: A
@@ -1492,7 +1491,7 @@ end_multi_char_font:
 
 vic_get_extended_color_mode_state: .proc
 	lda $d011
-	and VIC_Extended_Color_Mode_Mask
+	and #VIC_Extended_Color_Mode_Mask
 	rts
 .pend
 
@@ -1510,7 +1509,7 @@ TEST_vic_get_extended_color_mode_state: .proc
 ;; C64PRG: p120
 ;;
 ;; The input value in A must be one of these two constants:
-;; 	VIC_Extended_Color_Mode_Enable, VIC_Extended_Color_Mode_Disable
+;; 	#VIC_Extended_Color_Mode_Enable, #VIC_Extended_Color_Mode_Disable
 ;;
 ;; Input Registers: A
 ;; Return Value: None
@@ -1518,10 +1517,10 @@ TEST_vic_get_extended_color_mode_state: .proc
 ;; ---------------------------
 
 vic_set_extended_color_mode_state: .proc
-	and VIC_Extended_Color_Mode_Mask
+	and #VIC_Extended_Color_Mode_Mask
 	sta tmp_0
 	lda $d011
-	and ~VIC_Extended_Color_Mode_Mask
+	and ~#VIC_Extended_Color_Mode_Mask
 	ora tmp_0
 	sta $d011
 	rts
@@ -1531,11 +1530,11 @@ tmp_0:
 
 TEST_vic_set_extended_color_mode_state: .proc
 	jsr reset_c64
-	lda VIC_Extended_Color_Mode_Enable
+	lda #VIC_Extended_Color_Mode_Enable
 	jsr vic_set_extended_color_mode_state
 	jsr vic_get_extended_color_mode_state
 	sta tmp_0
-	lda VIC_Extended_Color_Mode_Disable
+	lda #VIC_Extended_Color_Mode_Disable
 	jsr vic_set_extended_color_mode_state
 	lda tmp_0
 	ldx #$00
@@ -1549,17 +1548,17 @@ tmp_0:
 TEST_vic_extended_color_display: .proc
 	jsr reset_c64
 
-	lda VIC_Extended_Color_Mode_Enable
+	lda #VIC_Extended_Color_Mode_Enable
 	jsr vic_set_extended_color_mode_state
 
 	;; Set background colors
-	lda Black
+	lda #Black
 	sta $d021 ;; bkgd #0
-	lda White
+	lda #White
 	sta $d022 ;; bkgd #1
-	lda Red
+	lda #Red
 	sta $d023 ;; bkgd #2
-	lda Cyan
+	lda #Cyan
 	sta $d024 ;; bkgd #3
 
 	;; First row
@@ -1567,25 +1566,25 @@ TEST_vic_extended_color_display: .proc
 	; white A on a black background
 	lda #$01
 	sta $0400
-	lda White
+	lda #White
 	sta $d800
 
 	; Purple A on a white background
 	lda #$41
 	sta $0401
-	lda Purple
+	lda #Purple
 	sta $d801
 
 	; Cyan A on a red background
 	lda #$81
 	sta $0402
-	lda Cyan
+	lda #Cyan
 	sta $d802
 
 	; Black A on a cyan background
 	lda #$c1
 	sta $0403
-	lda Black
+	lda #Black
 	sta $d803
 	
 	;; Second row 
@@ -1593,37 +1592,30 @@ TEST_vic_extended_color_display: .proc
 	; Purple A on a black background
 	lda #$01
 	sta $0428
-	lda Purple
+	lda #Purple
 	sta $d828
 
 	; Blue A on a white background
 	lda #$41
 	sta $0429
-	lda Blue
+	lda #Blue
 	sta $d829
 
 	; Yellow A on a red background
 	lda #$81
 	sta $042a
-	lda Yellow
+	lda #Yellow
 	sta $d82a
 
 	; Brown A on a cyan background
 	lda #$c1
 	sta $042b
-	lda Brown
+	lda #Brown
 	sta $d82b
 
 	rts
 .pend
 
-
-;; TODO: All this stuff below!
-
-
-;; standard bit map mode
-; $d011 bit-5 is 1 (enabled)
-; $d011 bit-5 is 0 (disabled)
 
 ;; ---------------------------
 ;; Function: vic_get_bitmap_mode_state
@@ -1631,7 +1623,7 @@ TEST_vic_extended_color_display: .proc
 ;; C64PRG: p122
 ;;
 ;; The return value in A will be one of these two constants:
-;; 	VIC_Bitmap_Mode_Enable, or VIC_Bitmap_Mode_Disable
+;; 	#VIC_Bitmap_Mode_Enable, or #VIC_Bitmap_Mode_Disable
 ;;
 ;; Input Registers: None
 ;; Return Value: A
@@ -1640,7 +1632,7 @@ TEST_vic_extended_color_display: .proc
 
 vic_get_bitmap_mode_state: .proc
 	lda $d011
-	and VIC_Bitmap_Mode_Mask
+	and #VIC_Bitmap_Mode_Mask
 	rts
 .pend
 
@@ -1658,7 +1650,7 @@ TEST_vic_get_bitmap_mode_state: .proc
 ;; C64PRG: p122
 ;;
 ;; The input value in A must be one of these two constants:
-;; 	VIC_Bitmap_Mode_Enable, VIC_Bitmap_Mode_Disable
+;; 	#VIC_Bitmap_Mode_Enable, #VIC_Bitmap_Mode_Disable
 ;;
 ;; Input Registers: A
 ;; Return Value: None
@@ -1666,10 +1658,10 @@ TEST_vic_get_bitmap_mode_state: .proc
 ;; ---------------------------
 
 vic_set_bitmap_mode_state: .proc
-	and VIC_Bitmap_Mode_Mask
+	and #VIC_Bitmap_Mode_Mask
 	sta tmp_0
 	lda $d011
-	and ~VIC_Bitmap_Mode_Mask
+	and ~#VIC_Bitmap_Mode_Mask
 	ora tmp_0
 	sta $d011
 	rts
@@ -1679,11 +1671,11 @@ tmp_0:
 
 TEST_vic_set_bitmap_mode_state: .proc
 	jsr reset_c64
-	lda VIC_Bitmap_Mode_Enable
+	lda #VIC_Bitmap_Mode_Enable
 	jsr vic_set_bitmap_mode_state
 	jsr vic_get_bitmap_mode_state
 	sta tmp_0
-	lda VIC_Bitmap_Mode_Disable
+	lda #VIC_Bitmap_Mode_Disable
 	jsr vic_set_bitmap_mode_state
 	lda tmp_0
 	ldx #$00
@@ -1698,10 +1690,10 @@ TEST_vic_bitmap_display: .proc
 
 	;; tell vic where to find the bitmap area (in VBank_0 use CML_4 to make 8K
 	;; of space that doesn't interfere with zero page or character roms)
-	lda VIC_CharMemLoc_4
+	lda #VIC_CharMemLoc_4
 	jsr vic_set_char_mem_loc
 
-	lda VIC_Bitmap_Mode_Enable
+	lda #VIC_Bitmap_Mode_Enable
 	jsr vic_set_bitmap_mode_state
 
 	;; Set foreground and background bitmap colors to black for all 8x8
@@ -1710,8 +1702,8 @@ TEST_vic_bitmap_display: .proc
 	jsr vic_clear_default_screen
 
 	;; Now write something into the bitmap area and see if it shows up
-	lda White << 4 ;; TODO: Figure out constant math in 64tass manual
-	ora Black
+	lda #(White << 4)
+	ora #Black
 	sta $0400
 
 	ldx #$00
@@ -1726,8 +1718,8 @@ line_0_loop:
 line_0_done:
 
 	;; Now write something into the bitmap area and see if it shows up
-	lda Red << 4 ;; TODO: Figure out constant math in 64tass manual
-	ora Black
+	lda #(Red << 4)
+	ora #Black
 	sta $0401
 
 	ldx #$00
@@ -1761,13 +1753,13 @@ TEST_vic_multi_color_bitmap_display: .proc
 
 	;; tell vic where to find the bitmap area (in VBank_0 use CML_4 to make 8K
 	;; of space that doesn't interfere with zero page or character roms)
-	lda VIC_CharMemLoc_4 ; $2000
+	lda #VIC_CharMemLoc_4 ; $2000
 	jsr vic_set_char_mem_loc
 
-	lda VIC_Bitmap_Mode_Enable
+	lda #VIC_Bitmap_Mode_Enable
 	jsr vic_set_bitmap_mode_state
 
-	lda VIC_Color_Mode_Multi
+	lda #VIC_Color_Mode_Multi
 	jsr vic_set_color_mode_state
 
 
@@ -1783,13 +1775,13 @@ TEST_vic_multi_color_bitmap_display: .proc
 	jsr vic_clear_default_screen
 
 	;; Now write something into the bitmap area and see if it shows up
-	lda Black
+	lda #Black
 	sta $d021	;; 00: bkgd #0
-	lda White << 4 ;; TODO: Figure out constant math in 64tass manual
-	ora Red
+	lda #(White << 4)
+	ora #Red
 	sta $0400	;; 01: bits 7-4 screen memory color
 				;; 10: bits 3-0 screen memory color
-	lda Cyan
+	lda #Cyan
 	sta $d800	;; 11: use lower nibble of color ram
 
 	lda #%00000000
@@ -1811,8 +1803,8 @@ TEST_vic_multi_color_bitmap_display: .proc
 	sta $2007
 
 	;; Now write something into the bitmap area and see if it shows up
-	;lda Red << 4 ;; TODO: Figure out constant math in 64tass manual
-	;ora Black
+	;lda #(Red << 4)
+	;ora #Black
 	;sta $0401
 
 	
@@ -1827,7 +1819,7 @@ TEST_vic_multi_color_bitmap_display: .proc
 ;; C64PRG: p129
 ;;
 ;; The return value in A will be one of these two constants:
-;; 	VIC_Column_40_Mode or VIC_Column_38_Mode
+;; 	#VIC_Column_40_Mode or #VIC_Column_38_Mode
 ;;
 ;; Input Registers: None
 ;; Return Value: A
@@ -1836,7 +1828,7 @@ TEST_vic_multi_color_bitmap_display: .proc
 
 vic_get_column_mode_state: .proc
 	lda $d016
-	and VIC_Column_Mode_Mask
+	and #VIC_Column_Mode_Mask
 	rts
 .pend
 
@@ -1855,7 +1847,7 @@ TEST_vic_get_column_mode_state: .proc
 ;; C64PRG: p129
 ;;
 ;; The input value in A must be one of these two constants:
-;; 	VIC_Column_38_Mode, VIC_Column_40_Mode
+;; 	#VIC_Column_38_Mode, #VIC_Column_40_Mode
 ;;
 ;; Input Registers: A
 ;; Return Value: None
@@ -1863,10 +1855,10 @@ TEST_vic_get_column_mode_state: .proc
 ;; ---------------------------
 
 vic_set_column_mode_state: .proc
-	and VIC_Column_Mode_Mask
+	and #VIC_Column_Mode_Mask
 	sta tmp_0
 	lda $d016
-	and ~VIC_Column_Mode_Mask
+	and ~#VIC_Column_Mode_Mask
 	ora tmp_0
 	sta $d016
 	rts
@@ -1876,11 +1868,11 @@ tmp_0:
 
 TEST_vic_set_column_mode_state: .proc
 	jsr reset_c64
-	lda VIC_Column_38_Mode
+	lda #VIC_Column_38_Mode
 	jsr vic_set_column_mode_state
 	jsr vic_get_column_mode_state
 	sta tmp_0
-	lda VIC_Column_40_Mode
+	lda #VIC_Column_40_Mode
 	jsr vic_set_column_mode_state
 	lda tmp_0
 	ldx #$00
@@ -1897,7 +1889,7 @@ tmp_0:
 ;; C64PRG: p129
 ;;
 ;; The return value in A will be one of these two constants:
-;; 	VIC_Row_24_Mode or VIC_Row_25_Mode
+;; 	#VIC_Row_24_Mode or #VIC_Row_25_Mode
 ;;
 ;; Input Registers: None
 ;; Return Value: A
@@ -1906,7 +1898,7 @@ tmp_0:
 
 vic_get_row_mode_state: .proc
 	lda $d011
-	and VIC_Row_Mode_Mask
+	and #VIC_Row_Mode_Mask
 	rts
 .pend
 
@@ -1925,7 +1917,7 @@ TEST_vic_get_row_mode_state: .proc
 ;; C64PRG: p129
 ;;
 ;; The input value in A must be one of these two constants:
-;; 	VIC_Row_24_Mode, VIC_Row_25_Mode
+;; 	#VIC_Row_24_Mode, #VIC_Row_25_Mode
 ;;
 ;; Input Registers: A
 ;; Return Value: None
@@ -1933,10 +1925,10 @@ TEST_vic_get_row_mode_state: .proc
 ;; ---------------------------
 
 vic_set_row_mode_state: .proc
-	and VIC_Row_Mode_Mask
+	and #VIC_Row_Mode_Mask
 	sta tmp_0
 	lda $d011
-	and ~VIC_Row_Mode_Mask
+	and ~#VIC_Row_Mode_Mask
 	ora tmp_0
 	sta $d011
 	rts
@@ -1946,11 +1938,11 @@ tmp_0:
 
 TEST_vic_set_row_mode_state: .proc
 	jsr reset_c64
-	lda VIC_Row_24_Mode
+	lda #VIC_Row_24_Mode
 	jsr vic_set_row_mode_state
 	jsr vic_get_row_mode_state
 	sta tmp_0
-	lda VIC_Row_25_Mode
+	lda #VIC_Row_25_Mode
 	jsr vic_set_row_mode_state
 	lda tmp_0
 	ldx #$00
@@ -1973,7 +1965,7 @@ tmp_0:
 
 vic_get_scroll_x: .proc
 	lda $d016
-	and VIC_Scroll_X_Mask
+	and #VIC_Scroll_X_Mask
 	rts
 .pend
 
@@ -2000,10 +1992,10 @@ tmp_0:
 ;; ---------------------------
 
 vic_set_scroll_x: .proc
-	and VIC_Scroll_X_Mask
+	and #VIC_Scroll_X_Mask
 	sta tmp_0
 	lda $d016
-	and ~VIC_Scroll_X_Mask
+	and ~#VIC_Scroll_X_Mask
 	ora tmp_0
 	sta $d016
 	rts
@@ -2013,7 +2005,7 @@ tmp_0:
 
 TEST_vic_set_scroll_x: .proc
 	jsr reset_c64
-	lda VIC_Column_38_Mode
+	lda #VIC_Column_38_Mode
 	jsr vic_set_column_mode_state
 	lda #$03
 	jsr vic_set_scroll_x
@@ -2021,7 +2013,7 @@ TEST_vic_set_scroll_x: .proc
 	sta tmp_0
 	lda #$00
 	jsr vic_set_scroll_x
-	lda VIC_Column_40_Mode
+	lda #VIC_Column_40_Mode
 	jsr vic_set_column_mode_state
 	lda tmp_0
 	ldx #$00
@@ -2035,7 +2027,7 @@ tmp_0:
 ;; and too fast to see.
 TEST_vic_scroll_x_bitmap_display: .proc
 	jsr reset_c64
-	lda VIC_Column_38_Mode
+	lda #VIC_Column_38_Mode
 	jsr vic_set_column_mode_state
 	jsr TEST_vic_bitmap_display
 	ldx #$00
@@ -2062,7 +2054,7 @@ scroll_forever:
 
 vic_get_scroll_y: .proc
 	lda $d011
-	and VIC_Scroll_Y_Mask
+	and #VIC_Scroll_Y_Mask
 	rts
 .pend
 
@@ -2089,10 +2081,10 @@ tmp_0:
 ;; ---------------------------
 
 vic_set_scroll_y: .proc
-	and VIC_Scroll_Y_Mask
+	and #VIC_Scroll_Y_Mask
 	sta tmp_0
 	lda $d011
-	and ~VIC_Scroll_Y_Mask
+	and ~#VIC_Scroll_Y_Mask
 	ora tmp_0
 	sta $d011
 	rts
@@ -2102,7 +2094,7 @@ tmp_0:
 
 TEST_vic_set_scroll_y: .proc
 	jsr reset_c64
-	lda VIC_Row_24_Mode
+	lda #VIC_Row_24_Mode
 	jsr vic_set_row_mode_state
 	lda #$05
 	jsr vic_set_scroll_y
@@ -2110,7 +2102,7 @@ TEST_vic_set_scroll_y: .proc
 	sta tmp_0
 	lda #$03 ;; default
 	jsr vic_set_scroll_y
-	lda VIC_Row_25_Mode
+	lda #VIC_Row_25_Mode
 	jsr vic_set_row_mode_state
 	lda tmp_0
 	ldx #$00
@@ -2122,7 +2114,7 @@ tmp_0:
 
 TEST_vic_scroll_y_bitmap_display: .proc
 	jsr reset_c64
-	lda VIC_Row_24_Mode
+	lda #VIC_Row_24_Mode
 	jsr vic_set_row_mode_state
 	jsr TEST_vic_bitmap_display
 	ldx #$00
@@ -2191,7 +2183,7 @@ vic_get_sprite_enable: .proc
 
 TEST_vic_get_sprite_enable: .proc
 	jsr reset_c64
-	lda VIC_Sprite_All
+	lda #VIC_Sprite_All
 	jsr vic_get_sprite_enable
 	ldx #$00
 	jsr TESTUtil_display_hex_byte
@@ -2218,14 +2210,9 @@ vic_set_sprite_enable: .proc
 
 TEST_vic_set_sprite_enable: .proc
 	jsr reset_c64
-
-	;; TODO: make a assembler folded constant
-	;lda #(VIC_Sprite_1 | VIC_Sprite_3) ;; why not working?
-	lda VIC_Sprite_1
-	ora VIC_Sprite_3
-
+	lda #(VIC_Sprite_1 | VIC_Sprite_3)
 	jsr vic_set_sprite_enable
-	lda VIC_Sprite_All
+	lda #VIC_Sprite_All
 	jsr vic_get_sprite_enable
 	ldx #$00
 	jsr TESTUtil_display_hex_byte		;; <-- $0a UL corner
@@ -2256,7 +2243,7 @@ vic_get_sprite_disable: .proc
 
 TEST_vic_get_sprite_disable: .proc
 	jsr reset_c64
-	lda VIC_Sprite_All
+	lda #VIC_Sprite_All
 	jsr vic_get_sprite_disable
 	ldx #$00
 	jsr TESTUtil_display_hex_byte       ;; <--- $ff UL corner
@@ -2286,17 +2273,14 @@ TEST_vic_set_sprite_disable: .proc
 	jsr reset_c64
 
 	;; Enable sprite 1 and 3
-	;; TODO: make a assembler folded constant
-	;lda #(VIC_Sprite_1 | VIC_Sprite_3) ;; why not working?
-	lda VIC_Sprite_1
-	ora VIC_Sprite_3
+	lda #(VIC_Sprite_1 | VIC_Sprite_3)
 	jsr vic_set_sprite_enable
 
 	;; Disable Sprite 3
-	lda VIC_Sprite_3
+	lda #VIC_Sprite_3
 	jsr vic_set_sprite_disable
 
-	lda VIC_Sprite_All
+	lda #VIC_Sprite_All
 	jsr vic_get_sprite_enable
 	ldx #$00
 	jsr TESTUtil_display_hex_byte		;; <-- $02 UL corner
@@ -2342,8 +2326,7 @@ vic_set_sprite_state: .proc
 
 TEST_vic_set_sprite_state: .proc
 	jsr reset_c64
-	lda VIC_Sprite_0
-	ora VIC_Sprite_7
+	lda #(VIC_Sprite_0 | VIC_Sprite_7)
 	jsr vic_set_sprite_state
 	jsr vic_get_sprite_state
 	ldx #$00
@@ -2374,7 +2357,7 @@ vic_get_mc_sprite_enable: .proc
 
 TEST_vic_get_mc_sprite_enable: .proc
 	jsr reset_c64
-	lda VIC_Sprite_All
+	lda #VIC_Sprite_All
 	jsr vic_get_mc_sprite_enable
 	ldx #$00
 	jsr TESTUtil_display_hex_byte     ;; <---- $00 UL corner
@@ -2402,13 +2385,9 @@ vic_set_mc_sprite_enable: .proc
 TEST_vic_set_mc_sprite_enable: .proc
 	jsr reset_c64
 
-	;; TODO: make a assembler folded constant
-	;lda #(VIC_Sprite_1 | VIC_Sprite_3) ;; why not working?
-	lda VIC_Sprite_1
-	ora VIC_Sprite_3
-
+	lda #(VIC_Sprite_1 | VIC_Sprite_3)
 	jsr vic_set_mc_sprite_enable
-	lda VIC_Sprite_All
+	lda #VIC_Sprite_All
 	jsr vic_get_mc_sprite_enable
 	ldx #$00
 	jsr TESTUtil_display_hex_byte		;; <-- $0a UL corner
@@ -2439,7 +2418,7 @@ vic_get_mc_sprite_disable: .proc
 
 TEST_vic_get_mc_sprite_disable: .proc
 	jsr reset_c64
-	lda VIC_Sprite_All
+	lda #VIC_Sprite_All
 	jsr vic_get_mc_sprite_disable
 	ldx #$00
 	jsr TESTUtil_display_hex_byte       ;; <--- $ff UL corner
@@ -2469,17 +2448,14 @@ TEST_vic_set_mc_sprite_disable: .proc
 	jsr reset_c64
 
 	;; Enable sprite 1 and 3
-	;; TODO: make a assembler folded constant
-	;lda #(VIC_Sprite_1 | VIC_Sprite_3) ;; why not working?
-	lda VIC_Sprite_1
-	ora VIC_Sprite_3
+	lda #(VIC_Sprite_1 | VIC_Sprite_3)
 	jsr vic_set_mc_sprite_enable
 
 	;; Disable Sprite 3
-	lda VIC_Sprite_3
+	lda #VIC_Sprite_3
 	jsr vic_set_mc_sprite_disable
 
-	lda VIC_Sprite_All
+	lda #VIC_Sprite_All
 	jsr vic_get_mc_sprite_enable
 	ldx #$00
 	jsr TESTUtil_display_hex_byte		;; <-- $02 UL corner
@@ -2525,8 +2501,7 @@ vic_set_mc_sprite_state: .proc
 
 TEST_vic_set_mc_sprite_state: .proc
 	jsr reset_c64
-	lda VIC_Sprite_0
-	ora VIC_Sprite_7
+	lda #(VIC_Sprite_0 | VIC_Sprite_7)
 	jsr vic_set_mc_sprite_state
 	jsr vic_get_mc_sprite_state
 	ldx #$00
@@ -2557,7 +2532,7 @@ vic_get_exh_sprite_enable: .proc
 
 TEST_vic_get_exh_sprite_enable: .proc
 	jsr reset_c64
-	lda VIC_Sprite_All
+	lda #VIC_Sprite_All
 	jsr vic_get_exh_sprite_enable
 	ldx #$00
 	jsr TESTUtil_display_hex_byte     ;; <---- $00 UL corner
@@ -2585,13 +2560,9 @@ vic_set_exh_sprite_enable: .proc
 TEST_vic_set_exh_sprite_enable: .proc
 	jsr reset_c64
 
-	;; TODO: make a assembler folded constant
-	;lda #(VIC_Sprite_1 | VIC_Sprite_3) ;; why not working?
-	lda VIC_Sprite_1
-	ora VIC_Sprite_3
-
+	lda #(VIC_Sprite_1 | VIC_Sprite_3)
 	jsr vic_set_exh_sprite_enable
-	lda VIC_Sprite_All
+	lda #VIC_Sprite_All
 	jsr vic_get_exh_sprite_enable
 	ldx #$00
 	jsr TESTUtil_display_hex_byte		;; <-- $0a UL corner
@@ -2622,7 +2593,7 @@ vic_get_exh_sprite_disable: .proc
 
 TEST_vic_get_exh_sprite_disable: .proc
 	jsr reset_c64
-	lda VIC_Sprite_All
+	lda #VIC_Sprite_All
 	jsr vic_get_exh_sprite_disable
 	ldx #$00
 	jsr TESTUtil_display_hex_byte       ;; <--- $ff UL corner
@@ -2652,17 +2623,14 @@ TEST_vic_set_exh_sprite_disable: .proc
 	jsr reset_c64
 
 	;; Enable sprite 1 and 3
-	;; TODO: make a assembler folded constant
-	;lda #(VIC_Sprite_1 | VIC_Sprite_3) ;; why not working?
-	lda VIC_Sprite_1
-	ora VIC_Sprite_3
+	lda #(VIC_Sprite_1 | VIC_Sprite_3)
 	jsr vic_set_exh_sprite_enable
 
 	;; Disable Sprite 3
-	lda VIC_Sprite_3
+	lda #VIC_Sprite_3
 	jsr vic_set_exh_sprite_disable
 
-	lda VIC_Sprite_All
+	lda #VIC_Sprite_All
 	jsr vic_get_exh_sprite_enable
 	ldx #$00
 	jsr TESTUtil_display_hex_byte		;; <-- $02 UL corner
@@ -2708,8 +2676,7 @@ vic_set_exh_sprite_state: .proc
 
 TEST_vic_set_exh_sprite_state: .proc
 	jsr reset_c64
-	lda VIC_Sprite_0
-	ora VIC_Sprite_7
+	lda #(VIC_Sprite_0 | VIC_Sprite_7)
 	jsr vic_set_exh_sprite_state
 	jsr vic_get_exh_sprite_state
 	ldx #$00
@@ -2742,7 +2709,7 @@ vic_get_exv_sprite_enable: .proc
 
 TEST_vic_get_exv_sprite_enable: .proc
 	jsr reset_c64
-	lda VIC_Sprite_All
+	lda #VIC_Sprite_All
 	jsr vic_get_exv_sprite_enable
 	ldx #$00
 	jsr TESTUtil_display_hex_byte     ;; <---- $00 UL corner
@@ -2770,13 +2737,9 @@ vic_set_exv_sprite_enable: .proc
 TEST_vic_set_exv_sprite_enable: .proc
 	jsr reset_c64
 
-	;; TODO: make a assembler folded constant
-	;lda #(VIC_Sprite_1 | VIC_Sprite_3) ;; why not working?
-	lda VIC_Sprite_1
-	ora VIC_Sprite_3
-
+	lda #(VIC_Sprite_1 | VIC_Sprite_3)
 	jsr vic_set_exv_sprite_enable
-	lda VIC_Sprite_All
+	lda #VIC_Sprite_All
 	jsr vic_get_exv_sprite_enable
 	ldx #$00
 	jsr TESTUtil_display_hex_byte		;; <-- $0a UL corner
@@ -2807,7 +2770,7 @@ vic_get_exv_sprite_disable: .proc
 
 TEST_vic_get_exv_sprite_disable: .proc
 	jsr reset_c64
-	lda VIC_Sprite_All
+	lda #VIC_Sprite_All
 	jsr vic_get_exv_sprite_disable
 	ldx #$00
 	jsr TESTUtil_display_hex_byte       ;; <--- $ff UL corner
@@ -2837,17 +2800,14 @@ TEST_vic_set_exv_sprite_disable: .proc
 	jsr reset_c64
 
 	;; Enable sprite 1 and 3
-	;; TODO: make a assembler folded constant
-	;lda #(VIC_Sprite_1 | VIC_Sprite_3) ;; why not working?
-	lda VIC_Sprite_1
-	ora VIC_Sprite_3
+	lda #(VIC_Sprite_1 | VIC_Sprite_3)
 	jsr vic_set_exv_sprite_enable
 
 	;; Disable Sprite 3
-	lda VIC_Sprite_3
+	lda #VIC_Sprite_3
 	jsr vic_set_exv_sprite_disable
 
-	lda VIC_Sprite_All
+	lda #VIC_Sprite_All
 	jsr vic_get_exv_sprite_enable
 	ldx #$00
 	jsr TESTUtil_display_hex_byte		;; <-- $02 UL corner
@@ -2893,8 +2853,7 @@ vic_set_exv_sprite_state: .proc
 
 TEST_vic_set_exv_sprite_state: .proc
 	jsr reset_c64
-	lda VIC_Sprite_0
-	ora VIC_Sprite_7
+	lda #(VIC_Sprite_0 | VIC_Sprite_7)
 	jsr vic_set_exv_sprite_state
 	jsr vic_get_exv_sprite_state
 	ldx #$00
@@ -3089,8 +3048,4 @@ hr_sprite_7:
 	sprite_row %111111111111111111111111
 	end_sprite
 hr_sprite_data_end:
-
-
-
-
 
