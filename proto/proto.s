@@ -247,7 +247,8 @@ main: .proc
 	;jsr TEST_vic_get_exv_sprite_disable		; $ff UL corner
 	;jsr TEST_vic_set_exv_sprite_disable		; $02 UL corner
 	;jsr TEST_vic_get_exv_sprite_state		; $00 UL corner
-	jsr TEST_vic_set_exv_sprite_state		; $81 UL corner
+	;jsr TEST_vic_set_exv_sprite_state		; $81 UL corner
+	jsr TEST_standard_sprites
 
 exit:
 	rts
@@ -2860,10 +2861,92 @@ TEST_vic_set_exv_sprite_state: .proc
 	jsr TESTUtil_display_hex_byte		;; <-- $81 UL corner
 .pend
 
+;; ---------------------------
+;; Standard Sprite Test
+;; ---------------------------
+TEST_standard_sprites: .proc
+	;; TODO
+	jsr reset_c64
 
+	;; We stay in Bank 0, the default. 
+	;; We memcpy the sprite data into $2000.
+	;; This makes the first sprite pointer the number: 0x80 (128)
 
-hr_sprite_data_start:
-hr_sprite_0:
+	lda #<std_sprite_data_start
+	sta mem_src
+	lda #>std_sprite_data_start
+	sta mem_src+1
+	lda #$00
+	sta mem_dst
+	lda #$20
+	sta mem_dst+1
+	ldx #<(std_sprite_data_end - std_sprite_data_start)
+	ldy #>(std_sprite_data_end - std_sprite_data_start)
+	jsr memcpy
+
+	;; And set the sprite pointers for each of the 8 sprites we have
+	lda #$80
+	sta $07f8
+	lda #$81
+	sta $07f9
+	lda #$82
+	sta $07fa
+	lda #$83
+	sta $07fb
+	lda #$84
+	sta $07fc
+	lda #$85
+	sta $07fd
+	lda #$86
+	sta $07fe
+	lda #$87
+	sta $07ff
+
+	;; All sprites msb X off for now.
+	lda #$00
+	lda $d010 
+
+	;; -----------------
+
+	ldy #$00 ;; sprite to draw 0 through 7
+draw_loop:
+	cpy #$08
+	beq done
+
+	;; Set sprite color
+	lda #White
+	sta $d027,y
+
+	;; Position sprite starting from UL corner of screen
+	tya
+	clc
+	asl a
+	tax ;; X = Y * 2
+	lda sprite_id_x_offset_table,y ;; Sprite x offset
+	sta $d000,x
+	lda #$32 ;; Sprite y offset
+	sta $d001,x
+
+	;; enable sprite (which should tell VIC to draw it)
+	lda sprite_id_table,y
+	jsr vic_set_sprite_enable
+
+	iny
+	jmp draw_loop
+
+done:
+	rts
+.pend
+
+sprite_id_table:
+	.byte VIC_Sprite_0, VIC_Sprite_1, VIC_Sprite_2, VIC_Sprite_3
+	.byte VIC_Sprite_4, VIC_Sprite_5, VIC_Sprite_6, VIC_Sprite_7
+
+sprite_id_x_offset_table:
+	.byte $18, $30, $48, $60, $78, $90, $a8, $c0
+
+std_sprite_data_start:
+std_sprite_0:
 	sprite_row %111111111111111111111111
 	sprite_row %100000000000000000000001
 	sprite_row %100000000000000000000001
@@ -2886,7 +2969,7 @@ hr_sprite_0:
 	sprite_row %100000000000000000000001
 	sprite_row %111111111111111111111111
 	end_sprite
-hr_sprite_1:
+std_sprite_1:
 	sprite_row %111111111111111111111111
 	sprite_row %100000000000000000000001
 	sprite_row %100000000000000000000001
@@ -2909,7 +2992,7 @@ hr_sprite_1:
 	sprite_row %100000000000000000000001
 	sprite_row %111111111111111111111111
 	end_sprite
-hr_sprite_2:
+std_sprite_2:
 	sprite_row %111111111111111111111111
 	sprite_row %100000000000000000000001
 	sprite_row %100000000000000000000001
@@ -2932,7 +3015,7 @@ hr_sprite_2:
 	sprite_row %100000000000000000000001
 	sprite_row %111111111111111111111111
 	end_sprite
-hr_sprite_3:
+std_sprite_3:
 	sprite_row %111111111111111111111111
 	sprite_row %100000000000000000000001
 	sprite_row %100000000000000000000001
@@ -2955,7 +3038,7 @@ hr_sprite_3:
 	sprite_row %100000000000000000000001
 	sprite_row %111111111111111111111111
 	end_sprite
-hr_sprite_4:
+std_sprite_4:
 	sprite_row %111111111111111111111111
 	sprite_row %100000000000000000000001
 	sprite_row %100000000000000000000001
@@ -2978,7 +3061,7 @@ hr_sprite_4:
 	sprite_row %100000000000000000000001
 	sprite_row %111111111111111111111111
 	end_sprite
-hr_sprite_5:
+std_sprite_5:
 	sprite_row %111111111111111111111111
 	sprite_row %100000000000000000000001
 	sprite_row %100000000000000000000001
@@ -3001,7 +3084,7 @@ hr_sprite_5:
 	sprite_row %100000000000000000000001
 	sprite_row %111111111111111111111111
 	end_sprite
-hr_sprite_6:
+std_sprite_6:
 	sprite_row %111111111111111111111111
 	sprite_row %100000000000000000000001
 	sprite_row %100000000000000000000001
@@ -3024,7 +3107,7 @@ hr_sprite_6:
 	sprite_row %100000000000000000000001
 	sprite_row %111111111111111111111111
 	end_sprite
-hr_sprite_7:
+std_sprite_7:
 	sprite_row %111111111111111111111111
 	sprite_row %100000000000000000000001
 	sprite_row %100000000000000000000001
@@ -3047,5 +3130,5 @@ hr_sprite_7:
 	sprite_row %100000000000000000000001
 	sprite_row %111111111111111111111111
 	end_sprite
-hr_sprite_data_end:
+std_sprite_data_end:
 
