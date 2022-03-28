@@ -11,11 +11,11 @@
 ;; VIC-II Constants: C64PRG: p102
 ;; ;;;;;;;;;;;;;;;;;;;;;
 ; Video Bank Identification (sets video bank start)
-VIC_VBankLoc_Mask = $03		; Bits 1-0
+VIC_VBankLoc_Mask = $03			; Bits 1-0
 VIC_VBankLoc_0 = $03			; $0000 - $3fff
-VIC_VBankLoc_1 = $02   		; $4000 - $7fff
+VIC_VBankLoc_1 = $02			; $4000 - $7fff
 VIC_VBankLoc_2 = $01			; $8000 - $bfff
-VIC_VBankLoc_3 = $00   		; $C000 - $ffff (default value)
+VIC_VBankLoc_3 = $00			; $C000 - $ffff (default value)
 
 ; Screen Memory Location (as an offset from the Video Bank start)
 VIC_ScrMemLoc_Mask = $f0		; Bits 7-4
@@ -164,23 +164,29 @@ mem_dst = $fd
 
 *	= $0800
 basic_auto_run:
-    .byte $00                ; first byte has to be zero for BASIC program to work
-    .byte $0c, $08           ; pointer to next BASIC line in memory, i.e. $080C
-    .byte $0a, $00, $9e, $20 ; the code for: 10 SYS (includes trailing space)
-    .byte $32, $30, $36, $32 ; ASCII version of SYS address, i.e. 2062
-    .byte $00                ; line terminator
-    .byte $00, $00           ; the pointer above points to this place in memory
-                             ; as we have no other line, we leave both bytes zero
-                             ; end of program
+	;; first byte must be zero for BASIC program to work
+	.byte $00
+	;; pointer to next BASIC line in memory, i.e. $080C
+	.byte $0c, $08
+	;; the code for: 10 SYS (includes trailing space)
+	.byte $0a, $00, $9e, $20
+	;; ASCII version of SYS address, i.e. 2062
+	.byte $32, $30, $36, $32
+	;; line terminator
+	.byte $00
+	;; the pointer above points to this place in memory
+	;; as we have no other line, we leave both bytes zero
+	;; end of program
+	.byte $00, $00
 
-    ; memory location 2062 comes next, which our SYS command above calls
-    ; (i.e. 2048 + 14 bytes for our BASIC program above)
+	;; memory location 2062 comes next, which our SYS command above calls
+	;; (i.e. 2048 + 14 bytes for our BASIC program above)
 start:
 	jmp main
 main: .proc
 	jsr reset_c64
 
-	;jsr TEST_vic_get_video_bank_loc 		; C UL corner
+	;jsr TEST_vic_get_video_bank_loc		 ; C UL corner
 	;jsr TEST_vic_set_video_bank_loc		; A UL corner
 	;jsr TEST_vic_get_scr_mem_loc			; P UL corner
 	;jsr TEST_vic_set_scr_mem_loc			; A UL corner
@@ -1005,7 +1011,7 @@ tmp_0:
 ;; C64PRG: p106 p320-p321
 ;;
 ;; The return value in A will be one of these two constants:
-;; 	PP_BASIC_Enable, or PP_BASIC_Disable
+;;	 PP_BASIC_Enable, or PP_BASIC_Disable
 ;;
 ;; Input Registers: None
 ;; Return Value: A
@@ -1032,7 +1038,7 @@ TEST_pp_get_ram_basic_state: .proc
 ;; C64PRG: p106 p320-p321
 ;;
 ;; The return value in A will be one of these two constants:
-;; 	PP_BASIC_Enable, or PP_BASIC_Disable
+;;	 PP_BASIC_Enable, or PP_BASIC_Disable
 ;;
 ;; Input Registers: A, a PP_BASIC_(Enable|Disable) constant
 ;; Return Value: None
@@ -1071,7 +1077,7 @@ tmp_0:
 ;; C64PRG: p106 p320-p321
 ;;
 ;; The return value in A will be one of these two constants:
-;; 	PP_Kernel_Enable, or PP_Kernel_Disable
+;;	 PP_Kernel_Enable, or PP_Kernel_Disable
 ;;
 ;; Input Registers: None
 ;; Return Value: A
@@ -1134,7 +1140,7 @@ tmp_0:
 ;; C64PRG: p106 p320-p321
 ;;
 ;; The return value in A will be one of these two constants:
-;; 	PP_Char_Enable, or PP_Char_Disable
+;;	 PP_Char_Enable, or PP_Char_Disable
 ;;
 ;; Input Registers: None
 ;; Return Value: A
@@ -1209,7 +1215,7 @@ tmp_0:
 ;; C64PRG: p115
 ;;
 ;; The return value in A will be one of these two constants:
-;; 	#VIC_Color_Mode_Standard, #VIC_Color_Mode_Multi
+;;	 #VIC_Color_Mode_Standard, #VIC_Color_Mode_Multi
 ;;
 ;; Input Registers: None
 ;; Return Value: A
@@ -1236,7 +1242,7 @@ TEST_vic_get_color_mode_state: .proc
 ;; C64PRG: p115
 ;;
 ;; The input value in A must be one of these two constants:
-;; 	#VIC_Color_Mode_Standard, #VIC_Color_Mode_Multi
+;;	 #VIC_Color_Mode_Standard, #VIC_Color_Mode_Multi
 ;;
 ;; Input Registers: A
 ;; Return Value: None
@@ -1484,7 +1490,7 @@ end_multi_char_font:
 ;; C64PRG: p120
 ;;
 ;; The return value in A will be one of these two constants:
-;; 	#VIC_Extended_Color_Mode_Enable, or #VIC_Extended_Color_Mode_Disable
+;;	 #VIC_Extended_Color_Mode_Enable, or #VIC_Extended_Color_Mode_Disable
 ;;
 ;; Input Registers: None
 ;; Return Value: A
@@ -1511,7 +1517,7 @@ TEST_vic_get_extended_color_mode_state: .proc
 ;; C64PRG: p120
 ;;
 ;; The input value in A must be one of these two constants:
-;; 	#VIC_Extended_Color_Mode_Enable, #VIC_Extended_Color_Mode_Disable
+;;	 #VIC_Extended_Color_Mode_Enable, #VIC_Extended_Color_Mode_Disable
 ;;
 ;; Input Registers: A
 ;; Return Value: None
@@ -1625,7 +1631,7 @@ TEST_vic_extended_color_display: .proc
 ;; C64PRG: p122
 ;;
 ;; The return value in A will be one of these two constants:
-;; 	#VIC_Bitmap_Mode_Enable, or #VIC_Bitmap_Mode_Disable
+;;	 #VIC_Bitmap_Mode_Enable, or #VIC_Bitmap_Mode_Disable
 ;;
 ;; Input Registers: None
 ;; Return Value: A
@@ -1652,7 +1658,7 @@ TEST_vic_get_bitmap_mode_state: .proc
 ;; C64PRG: p122
 ;;
 ;; The input value in A must be one of these two constants:
-;; 	#VIC_Bitmap_Mode_Enable, #VIC_Bitmap_Mode_Disable
+;;	 #VIC_Bitmap_Mode_Enable, #VIC_Bitmap_Mode_Disable
 ;;
 ;; Input Registers: A
 ;; Return Value: None
@@ -1821,7 +1827,7 @@ TEST_vic_multi_color_bitmap_display: .proc
 ;; C64PRG: p129
 ;;
 ;; The return value in A will be one of these two constants:
-;; 	#VIC_Column_40_Mode or #VIC_Column_38_Mode
+;;	 #VIC_Column_40_Mode or #VIC_Column_38_Mode
 ;;
 ;; Input Registers: None
 ;; Return Value: A
@@ -1849,7 +1855,7 @@ TEST_vic_get_column_mode_state: .proc
 ;; C64PRG: p129
 ;;
 ;; The input value in A must be one of these two constants:
-;; 	#VIC_Column_38_Mode, #VIC_Column_40_Mode
+;;	 #VIC_Column_38_Mode, #VIC_Column_40_Mode
 ;;
 ;; Input Registers: A
 ;; Return Value: None
@@ -1891,7 +1897,7 @@ tmp_0:
 ;; C64PRG: p129
 ;;
 ;; The return value in A will be one of these two constants:
-;; 	#VIC_Row_24_Mode or #VIC_Row_25_Mode
+;;	 #VIC_Row_24_Mode or #VIC_Row_25_Mode
 ;;
 ;; Input Registers: None
 ;; Return Value: A
@@ -1919,7 +1925,7 @@ TEST_vic_get_row_mode_state: .proc
 ;; C64PRG: p129
 ;;
 ;; The input value in A must be one of these two constants:
-;; 	#VIC_Row_24_Mode, #VIC_Row_25_Mode
+;;	 #VIC_Row_24_Mode, #VIC_Row_25_Mode
 ;;
 ;; Input Registers: A
 ;; Return Value: None
@@ -2035,6 +2041,7 @@ TEST_vic_scroll_x_bitmap_display: .proc
 	ldx #$00
 scroll_forever:
 	lda #$fa ;; line 250 on screen
+	clc
 	jsr vic_wait_vblank_simple
 	txa
 	jsr vic_set_scroll_x
@@ -2122,6 +2129,7 @@ TEST_vic_scroll_y_bitmap_display: .proc
 	ldx #$00
 scroll_forever:
 	lda #$fa ;; line 250 on screen
+	clc
 	jsr vic_wait_vblank_simple
 	txa
 	jsr vic_set_scroll_y
@@ -2132,24 +2140,40 @@ scroll_forever:
 
 ;; ---------------------------
 ;; Function: vic_wait_vblank_simple
-;; Spinloop until the raster on on line #$fa then exit the loop.
+;; Spinloop until the raster matches carry_bit,A
 ;; C64PRG: p150
 ;;
 ;; The input value in A is the lower 8 bits of the raster register.
-;; TODO: Add in the carry register to represent the 9th bit....
-;; This function is a bit crappy and just good enough for exploring stuff.
+;; The carry bit is the 9-th bit of the raster register.
 ;;
-;; Input Registers: A
+;; TODO: This function seems wrong.
+;;
+;; Input Registers: carry bit, A
 ;; Return Value: None
 ;; Destroys: A
 ;; ---------------------------
 vic_wait_vblank_simple: .proc
 	sta tmp_0
-wait_vblank: ;; TODO: Should check 9th bit of raster position too!
+	bcs wait_vblank_cs
+
+wait_vblank_ncs:
+	lda $d011
+	and #$80
+	bne wait_vblank_ncs
 	lda $d012
 	cmp tmp_0 
-	bne wait_vblank
-in_vblank:
+	bne wait_vblank_ncs
+	jmp done
+
+wait_vblank_cs:
+	lda $d011
+	and #$80
+	beq wait_vblank_cs
+	lda $d012
+	cmp tmp_0 
+	bne wait_vblank_cs
+
+done:
 	rts
 tmp_0:
 	.byte $00
@@ -2248,7 +2272,7 @@ TEST_vic_get_sprite_disable: .proc
 	lda #VIC_Sprite_All
 	jsr vic_get_sprite_disable
 	ldx #$00
-	jsr TESTUtil_display_hex_byte       ;; <--- $ff UL corner
+	jsr TESTUtil_display_hex_byte	   ;; <--- $ff UL corner
 .pend
 
 ;; ---------------------------
@@ -2362,7 +2386,7 @@ TEST_vic_get_mc_sprite_enable: .proc
 	lda #VIC_Sprite_All
 	jsr vic_get_mc_sprite_enable
 	ldx #$00
-	jsr TESTUtil_display_hex_byte     ;; <---- $00 UL corner
+	jsr TESTUtil_display_hex_byte	 ;; <---- $00 UL corner
 .pend
 
 ;; ---------------------------
@@ -2423,7 +2447,7 @@ TEST_vic_get_mc_sprite_disable: .proc
 	lda #VIC_Sprite_All
 	jsr vic_get_mc_sprite_disable
 	ldx #$00
-	jsr TESTUtil_display_hex_byte       ;; <--- $ff UL corner
+	jsr TESTUtil_display_hex_byte	   ;; <--- $ff UL corner
 .pend
 
 ;; ---------------------------
@@ -2537,7 +2561,7 @@ TEST_vic_get_exh_sprite_enable: .proc
 	lda #VIC_Sprite_All
 	jsr vic_get_exh_sprite_enable
 	ldx #$00
-	jsr TESTUtil_display_hex_byte     ;; <---- $00 UL corner
+	jsr TESTUtil_display_hex_byte	 ;; <---- $00 UL corner
 .pend
 
 ;; ---------------------------
@@ -2598,7 +2622,7 @@ TEST_vic_get_exh_sprite_disable: .proc
 	lda #VIC_Sprite_All
 	jsr vic_get_exh_sprite_disable
 	ldx #$00
-	jsr TESTUtil_display_hex_byte       ;; <--- $ff UL corner
+	jsr TESTUtil_display_hex_byte	   ;; <--- $ff UL corner
 .pend
 
 ;; ---------------------------
@@ -2714,7 +2738,7 @@ TEST_vic_get_exv_sprite_enable: .proc
 	lda #VIC_Sprite_All
 	jsr vic_get_exv_sprite_enable
 	ldx #$00
-	jsr TESTUtil_display_hex_byte     ;; <---- $00 UL corner
+	jsr TESTUtil_display_hex_byte	 ;; <---- $00 UL corner
 .pend
 
 ;; ---------------------------
@@ -2775,7 +2799,7 @@ TEST_vic_get_exv_sprite_disable: .proc
 	lda #VIC_Sprite_All
 	jsr vic_get_exv_sprite_disable
 	ldx #$00
-	jsr TESTUtil_display_hex_byte       ;; <--- $ff UL corner
+	jsr TESTUtil_display_hex_byte	   ;; <--- $ff UL corner
 .pend
 
 ;; ---------------------------
@@ -2915,9 +2939,9 @@ TEST_standard_sprites: .proc
 	;; -----------------
 
 	ldy #$00 ;; sprite to draw 0 through 7
-draw_loop:
+sprite_setup_loop:
 	cpy #$08
-	beq done
+	beq completed_sprite_setup
 
 	;; Set sprite color
 	lda #White
@@ -2938,7 +2962,46 @@ draw_loop:
 	jsr vic_set_sprite_enable
 
 	iny
-	jmp draw_loop
+	jmp sprite_setup_loop
+
+completed_sprite_setup:
+
+	;; Turn off interrupts just to demonstrate a smooth animation.
+	;; We check the spacebar specifically ourselves to stop the loop.
+	sei
+animate: 
+	lda #$fa
+	clc
+	jsr vic_wait_vblank_simple
+
+	ldy #$00 ;; sprite to animate 0 through 7
+animate_sprites:
+	cpy #$08
+	beq finished_animating_sprites
+
+	;; Compute X = Y * 2
+	tya
+	clc
+	asl a
+	tax 
+
+	clc
+	lda $d001,x
+	adc sprite_id_y_animation_speed,y
+	sta $d001,x
+
+check_space_bar_press:
+	lda #$7f
+	sta $dc00
+	lda $dc01
+	and #$10
+	beq done
+
+	iny
+	jmp animate_sprites
+
+finished_animating_sprites:
+	jmp animate
 
 done:
 	rts
@@ -2947,9 +3010,10 @@ done:
 sprite_id_table:
 	.byte VIC_Sprite_0, VIC_Sprite_1, VIC_Sprite_2, VIC_Sprite_3
 	.byte VIC_Sprite_4, VIC_Sprite_5, VIC_Sprite_6, VIC_Sprite_7
-
 sprite_id_x_offset_table:
 	.byte $18, $30, $48, $60, $78, $90, $a8, $c0
+sprite_id_y_animation_speed:
+	.byte $01, $02, $03, $04, $05, $06, $07, $08
 
 std_sprite_data_start:
 std_sprite_0:
