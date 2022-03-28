@@ -248,6 +248,7 @@ main: .proc
 	;jsr TEST_vic_set_exv_sprite_disable		; $02 UL corner
 	;jsr TEST_vic_get_exv_sprite_state		; $00 UL corner
 	;jsr TEST_vic_set_exv_sprite_state		; $81 UL corner
+
 	jsr TEST_standard_sprites
 
 exit:
@@ -2902,9 +2903,14 @@ TEST_standard_sprites: .proc
 	lda #$87
 	sta $07ff
 
+	lda #Grey1
+	sta $d020	;; 00: border #0
+	lda #Black
+	sta $d021	;; 00: bkgd #0
+
 	;; All sprites msb X off for now.
 	lda #$00
-	lda $d010 
+	sta $d010 
 
 	;; -----------------
 
